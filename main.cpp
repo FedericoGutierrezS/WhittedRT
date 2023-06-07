@@ -23,8 +23,7 @@ int main(int argc, char *argv[]) {
 
 	glMatrixMode(GL_PROJECTION);
 
-	float color = 0;
-	glClearColor(color, color, color, 1);
+	glClearColor(0, 0, 0, 1);
 
 	gluPerspective(45, 640 / 480.f, 0.1, 100);
 	glEnable(GL_DEPTH_TEST);
@@ -41,57 +40,72 @@ int main(int argc, char *argv[]) {
 	y = 0;
 	z = 5;
 	float degrees = 0;
-
-	do {
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glLoadIdentity();
-		gluLookAt(x, y, z, 0, 0, 0, 0, 1, 0);
-
-		if (rotate) {
-			degrees = degrees + 0.1f;
+	const int WIDTH = 1280;
+	const int HEIGHT = 720;
+	FreeImage_Initialise();
+	FIBITMAP* bitmap = FreeImage_Allocate(WIDTH, HEIGHT, 24);
+	RGBQUAD color;
+	for (int i = 0; i < WIDTH; i++) {
+		for (int j = 0; j < HEIGHT; j++) {
+			color.rgbRed = 255;
+			color.rgbBlue = 0;
+			color.rgbGreen = 0;
+			FreeImage_SetPixelColor(bitmap, i, j, &color);
 		}
-		glRotatef(degrees, 0.0, 1.0, 0.0);
+	}
+	FreeImage_Save(FIF_PNG, bitmap, "test.png", 0);
 
-		glBegin(GL_TRIANGLES);
-		glColor3f(1.0, 1.0, 1.0);
-		glVertex3f(1., -1., 0.);
-		glColor3f(1.0, 0.0, 0.0);
-		glVertex3f(-1., -1., 0.);
-		glColor3f(0.0, 0.0, 1.0);
-		glVertex3f(0., 1., 0.);
-		glEnd();
-		//FIN DIBUJAR OBJETOS
+	//do {
+	//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//	glLoadIdentity();
+	//	gluLookAt(x, y, z, 0, 0, 0, 0, 1, 0);
 
-		//MANEJO DE EVENTOS
-		while (SDL_PollEvent(&evento)){
-			switch (evento.type) {
-			case SDL_MOUSEBUTTONDOWN:
-				rotate = true;
-				cout << "ROT\n";
-				break;
-			case SDL_MOUSEBUTTONUP:
-				rotate = false;
-				break;
-			case SDL_QUIT:
-				fin = true;
-				break;
-			case SDL_KEYUP:
-				switch (evento.key.keysym.sym) {
-				case SDLK_ESCAPE:
-					fin = true;
-					break;
-				case SDLK_RIGHT:
-					break;
-				}
-			}
-		}
-		//FIN MANEJO DE EVENTOS
-		SDL_GL_SwapWindow(win);
-	} while (!fin);
-	//FIN LOOP PRINCIPAL
+	//	if (rotate) {
+	//		degrees = degrees + 0.1f;
+	//	}
+	//	glRotatef(degrees, 0.0, 1.0, 0.0);
+
+	//	glBegin(GL_TRIANGLES);
+	//	glColor3f(1.0, 1.0, 1.0);
+	//	glVertex3f(1., -1., 0.);
+	//	glColor3f(1.0, 0.0, 0.0);
+	//	glVertex3f(-1., -1., 0.);
+	//	glColor3f(0.0, 0.0, 1.0);
+	//	glVertex3f(0., 1., 0.);
+	//	glEnd();
+	//	//FIN DIBUJAR OBJETOS
+
+	//	//MANEJO DE EVENTOS
+	//	while (SDL_PollEvent(&evento)){
+	//		switch (evento.type) {
+	//		case SDL_MOUSEBUTTONDOWN:
+	//			rotate = true;
+	//			cout << "ROT\n";
+	//			break;
+	//		case SDL_MOUSEBUTTONUP:
+	//			rotate = false;
+	//			break;
+	//		case SDL_QUIT:
+	//			fin = true;
+	//			break;
+	//		case SDL_KEYUP:
+	//			switch (evento.key.keysym.sym) {
+	//			case SDLK_ESCAPE:
+	//				fin = true;
+	//				break;
+	//			case SDLK_RIGHT:
+	//				break;
+	//			}
+	//		}
+	//	}
+	//	//FIN MANEJO DE EVENTOS
+	//	SDL_GL_SwapWindow(win);
+	//} while (!fin);
+	////FIN LOOP PRINCIPAL
 	// LIMPIEZA
 	SDL_GL_DeleteContext(context);
 	SDL_DestroyWindow(win);
 	SDL_Quit();
+	FreeImage_DeInitialise();
 	return 0;
 }
