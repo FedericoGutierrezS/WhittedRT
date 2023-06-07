@@ -1,6 +1,7 @@
 #include <iostream>
 #include "FreeImage.h"
 #include <stdio.h>
+#include "include/tinyxml2.h"
 
 using namespace std;
 

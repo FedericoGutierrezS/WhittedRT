@@ -1,0 +1,9 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+<camera>
+  <lookX>1</lookX>
+  <lookY>2</lookY>
+  <lookZ>1</lookZ>
+  <posX>1</posX>
+  <posY>2</posY>
+  <posZ>1</posZ>
+</camera> 
