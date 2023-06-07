@@ -4,11 +4,16 @@
 #include "include/tinyxml2.h"
 
 using namespace std;
+using namespace tinyxml2;
 
 int main(int argc, char *argv[]) {
 	const int WIDTH = 1280;
 	const int HEIGHT = 720;
 	FreeImage_Initialise();
+	XMLDocument doc;
+	doc.LoadFile("settings.xml");
+	const char* lookX = doc.FirstChildElement("camera")->FirstChildElement("lookX")->GetText();
+	cout << lookX;
 	FIBITMAP* bitmap = FreeImage_Allocate(WIDTH, HEIGHT, 24);
 	RGBQUAD color;
 	for (int i = 0; i < WIDTH; i++) {
