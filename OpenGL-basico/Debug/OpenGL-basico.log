@@ -1,2 +1,6 @@
 ﻿  main.cpp
-  OpenGL-basico.vcxproj -> C:\Users\fgutierrez\Source\Repos\FedericoGutierrezS\WhittedRT\Debug\OpenGL-basico.exe
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(108,22): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(115,24): warning C4244: '=': conversion from 'float' to 'BYTE', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(116,26): warning C4244: '=': conversion from 'float' to 'BYTE', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(117,25): warning C4244: '=': conversion from 'float' to 'BYTE', possible loss of data
+  OpenGL-basico.vcxproj -> C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\Debug\OpenGL-basico.exe
