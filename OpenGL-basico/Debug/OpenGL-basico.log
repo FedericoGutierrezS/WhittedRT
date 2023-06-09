@@ -1,6 +1,24 @@
 ﻿  main.cpp
-C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(108,22): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(115,24): warning C4244: '=': conversion from 'float' to 'BYTE', possible loss of data
-C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(116,26): warning C4244: '=': conversion from 'float' to 'BYTE', possible loss of data
-C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(117,25): warning C4244: '=': conversion from 'float' to 'BYTE', possible loss of data
-  OpenGL-basico.vcxproj -> C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\Debug\OpenGL-basico.exe
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(28,15): error C2664: 'Esfera *Esfera::intersectRay(ray,vec3 *,vec3 *)': el argumento 3 no puede convertirse de 'vec3 **' a 'vec3 *'
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(28,41): message : Los tipos señalados no están relacionados; la conversión requiere reinterpret_cast, conversión de estilo de C o conversión de estilo de función entre paréntesis
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\OpenGL-basico\sphere.h(13,10): message : vea la declaración de 'Esfera::intersectRay'
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(28,15): message : al hacer coincidir la lista de argumentos '(ray, vec3 *, vec3 **)'
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(94,53): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(94,43): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(105,22): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(113,24): warning C4244: '=': conversión de 'float' a 'BYTE'; posible pérdida de datos
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(114,26): warning C4244: '=': conversión de 'float' a 'BYTE'; posible pérdida de datos
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(115,25): warning C4244: '=': conversión de 'float' a 'BYTE'; posible pérdida de datos
+  sphere.cpp
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\OpenGL-basico\sphere.cpp(6,14): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\OpenGL-basico\sphere.cpp(10,26): error C2440: '=': no se puede realizar la conversión de 'vec3' a 'vec3 *'
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\OpenGL-basico\sphere.cpp(10,26): message : No hay disponible ningún operador de conversión definido por el usuario que pueda realizar esta conversión, o bien no se puede llamar al operador
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\OpenGL-basico\sphere.cpp(11,12): error C2678: '-' binario: no se encontró un operador que adopte un operando en la parte izquierda de tipo 'vec3' (o bien no existe una conversión aceptable)
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\OpenGL-basico\util.h(25,6): message : puede ser 'vec3 operator -(vec3,vec3)'
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\OpenGL-basico\sphere.cpp(11,12): message : o       'built-in C++ operator-(vec3 *, vec3 *)'
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\OpenGL-basico\sphere.cpp(11,12): message : al hacer coincidir la lista de argumentos '(vec3, vec3 *)'
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\OpenGL-basico\sphere.cpp(12,24): error C2664: 'float norma(vec3)': el argumento 1 no puede convertirse de 'vec3 *' a 'vec3'
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\OpenGL-basico\sphere.cpp(12,30): message : Ningún constructor ha podido aceptar el tipo de origen o bien la resolución de sobrecarga del constructor era ambigua
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\OpenGL-basico\util.h(33,7): message : vea la declaración de 'norma'
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\OpenGL-basico\sphere.cpp(12,24): message : al hacer coincidir la lista de argumentos '(vec3 *)'
+  Generando código...
