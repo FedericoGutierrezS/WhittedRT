@@ -19,17 +19,17 @@ struct camera {
 };
 
 vec3 traza_RR(ray rayo, int alt, Esfera e) {
-	vec3* norm;
-	vec3* hitPoint;
+	vec3* norm = new vec3;
+	vec3* hitPoint = new vec3;
 	vec3 res;
 	res.x = 0;
 	res.y = 0;
 	res.z = 0;
-	Esfera* k = e.intersectRay(rayo, norm, &hitPoint);
+	Esfera* k = e.intersectRay(rayo, norm, hitPoint);
 	if (k != nullptr) {
-		res.x = 255 / norm.x;
-		res.y = 255 / norm.x;
-		res.z = 255;
+		res.x = 255 / abs(norm->x);
+		res.y = 255 / abs(norm->y);
+		res.z = 255 / abs(norm->z);
 	}
 	return res;
 };
