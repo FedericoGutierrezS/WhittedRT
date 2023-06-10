@@ -1,8 +1,1 @@
-﻿  main.cpp
-C:\Users\feder\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(94,53): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-C:\Users\feder\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(94,43): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-C:\Users\feder\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(105,22): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\feder\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(113,24): warning C4244: '=': conversión de 'float' a 'BYTE'; posible pérdida de datos
-C:\Users\feder\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(114,26): warning C4244: '=': conversión de 'float' a 'BYTE'; posible pérdida de datos
-C:\Users\feder\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(115,25): warning C4244: '=': conversión de 'float' a 'BYTE'; posible pérdida de datos
-  OpenGL-basico.vcxproj -> C:\Users\feder\Source\Repos\FedericoGutierrezS\WhittedRT\Debug\OpenGL-basico.exe
+﻿  OpenGL-basico.vcxproj -> C:\Users\feder\Source\Repos\FedericoGutierrezS\WhittedRT\Debug\OpenGL-basico.exe

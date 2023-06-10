@@ -7,7 +7,7 @@ Esfera*  Esfera::intersectRay(ray rayo, vec3 *norm, vec3* hitPoint) {
 	if (delta > 0) {
 		float d1 = -(rayo.dir * a) + sqrt(delta);
 		float d2 = -(rayo.dir * a) - sqrt(delta);
-		*hitPoint =rayo.origin + rayo.dir * fminf(d1, d2);
+		*hitPoint =rayo.origin + rayo.dir * fmaxf(d1,d2);
 		*norm = (position - *hitPoint) * (-1);
 		*norm = *norm * (1 / norma(*norm));
 		return this;

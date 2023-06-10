@@ -18,14 +18,17 @@ struct camera {
 	float fov;
 };
 
-vec3 traza_RR(ray rayo, int alt, Esfera e) {
+vec3 traza_RR(ray rayo, int alt, Esfera** e) {
 	vec3* norm = new vec3;
 	vec3* hitPoint = new vec3;
 	vec3 res;
 	res.x = 0;
 	res.y = 0;
 	res.z = 0;
-	Esfera* k = e.intersectRay(rayo, norm, hitPoint);
+	Esfera* k = NULL;
+	for (int i = 0; i < 2; i++) {
+		if (k == NULL) k = e[i]->intersectRay(rayo, norm, hitPoint);
+	}
 	if (k != nullptr) {
 		res.x = 255 / abs(norm->x);
 		res.y = 255 / abs(norm->y);
@@ -37,8 +40,6 @@ vec3 traza_RR(ray rayo, int alt, Esfera e) {
 
 
 int main(int argc, char *argv[]) {
-	const int WIDTH = 2280;
-	const int HEIGHT = 720;
 	FreeImage_Initialise();
 	XMLDocument doc;
 	doc.LoadFile("../settings.xml");
@@ -94,21 +95,22 @@ int main(int argc, char *argv[]) {
 	FIBITMAP* bitmap = FreeImage_Allocate(cam.resW, cam.resH, 24);
 	RGBQUAD color;
 	vec3 pixel;
+	Esfera** arr = new Esfera*[2];
+	arr[0] = sphere1;
+	arr[1] = sphere2;
+	float camRatio = cam.resW / cam.resH;
 	for (int i = 0; i < cam.resH; i++) {
 		for (int j = 0; j < cam.resW; j++) {
 			ray rayo;
 			rayo.origin.x = cam.origin.x;
 			rayo.origin.y = cam.origin.y;
 			rayo.origin.z = cam.origin.z;
-			rayo.dir.x = (rayo.origin.x + (2 / cam.resH) * i) - 1;
-			rayo.dir.y = (rayo.origin.y + (2 / cam.resW) * j) - 1;
+			rayo.dir.x = ((rayo.origin.x + (2 / cam.resW) * j) - 1)*camRatio;
+			rayo.dir.y = ((rayo.origin.y + (2 / cam.resH) * i) - 1) ;
 			rayo.dir.z = -1.0 / tan(cam.fov / 2.0);
-			float normDirRay = sqrt(rayo.dir.x * rayo.dir.x + rayo.dir.y * rayo.dir.y + rayo.dir.z * rayo.dir.z);
-			rayo.dir.x = rayo.dir.x / normDirRay;
-			rayo.dir.y = rayo.dir.y / normDirRay;
-			rayo.dir.z = rayo.dir.z / normDirRay;
+			rayo.dir = rayo.dir*(1/norma(rayo.dir));
 
-			pixel = traza_RR(rayo, 1, *sphere1);
+			pixel = traza_RR(rayo, 1, arr);
 
 			color.rgbRed = pixel.x;
 			color.rgbGreen = pixel.y;
