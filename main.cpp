@@ -6,6 +6,7 @@
 #include "OpenGL-basico/util.h"
 #endif
 #include "OpenGL-basico/sphere.h"
+#include "OpenGL-basico/ColeccionObjetos.h"
 
 using namespace std;
 using namespace tinyxml2;
@@ -18,7 +19,7 @@ struct camera {
 	float fov;
 };
 
-vec3 traza_RR(ray rayo, int alt, Esfera** e) {
+vec3 traza_RR(ray rayo, int alt) {
 	vec3* norm = new vec3;
 	vec3* hitPoint = new vec3;
 	vec3 res;
@@ -26,7 +27,10 @@ vec3 traza_RR(ray rayo, int alt, Esfera** e) {
 	res.y = 0;
 	res.z = 0;
 	Esfera* k = NULL;
-	for (int i = 0; i < 2; i++) {
+	ColObjetos* col = NULL;
+	col = col->getInstance();
+	Esfera** e = col->getColEsferas();
+	for (int i = 0; i < col->getCantEsferas(); i++) {
 		if (k == NULL) k = e[i]->intersectRay(rayo, norm, hitPoint);
 	}
 	if (k != nullptr) {
@@ -95,10 +99,13 @@ int main(int argc, char *argv[]) {
 	FIBITMAP* bitmap = FreeImage_Allocate(cam.resW, cam.resH, 24);
 	RGBQUAD color;
 	vec3 pixel;
-	Esfera** arr = new Esfera*[2];
-	arr[0] = sphere1;
-	arr[1] = sphere2;
 	float camRatio = cam.resW / cam.resH;
+	ColObjetos* col = NULL;
+	col = col->getInstance();
+	col->inicializarCol(3, 3, 3, 3);
+	col->agregarEsfera(sphere1);
+	col->agregarEsfera(sphere2);
+
 	for (int i = 0; i < cam.resH; i++) {
 		for (int j = 0; j < cam.resW; j++) {
 			ray rayo;
@@ -110,7 +117,7 @@ int main(int argc, char *argv[]) {
 			rayo.dir.z = -1.0 / tan(cam.fov / 2.0);
 			rayo.dir = rayo.dir*(1/norma(rayo.dir));
 
-			pixel = traza_RR(rayo, 1, arr);
+			pixel = traza_RR(rayo, 1);
 
 			color.rgbRed = pixel.x;
 			color.rgbGreen = pixel.y;
