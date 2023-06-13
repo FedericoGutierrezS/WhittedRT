@@ -6,6 +6,7 @@
 #include "OpenGL-basico/util.h"
 #endif
 #include "OpenGL-basico/sphere.h"
+#include "OpenGL-basico/plane.h"
 #include "OpenGL-basico/ColeccionObjetos.h"
 
 using namespace std;
@@ -20,24 +21,50 @@ struct camera {
 };
 
 vec3 traza_RR(ray rayo, int alt) {
-	vec3* norm = new vec3;
-	vec3* hitPoint = new vec3;
+	vec3* norm = new vec3(100, 100, 100);
+	vec3* hitPoint = new vec3(100, 100, 100);
+	vec3 hitPoint_min(100, 100, 100);
+	vec3 norm_min(100,100,100);
 	vec3 res;
+	Primitive* hit;
 	res.x = 0;
 	res.y = 0;
 	res.z = 0;
-	Esfera* k = NULL;
+	bool intersect = false;
+	bool j = false;
 	ColObjetos* col = NULL;
 	col = col->getInstance();
 	Esfera** e = col->getColEsferas();
-	for (int i = 0; i < col->getCantEsferas(); i++) {
-		if (k == NULL) k = e[i]->intersectRay(rayo, norm, hitPoint);
+	intersect = e[0]->intersectRay(rayo, norm, hitPoint);
+	norm_min = *norm;
+	hitPoint_min = *hitPoint;
+	hit = e[0];
+	for (int i = 1; i < col->getCantEsferas(); i++) {
+		j = e[i]->intersectRay(rayo, norm, hitPoint);
+		if (j && norma(*hitPoint) < norma(hitPoint_min)) {
+			hitPoint_min = *hitPoint;
+			norm_min = *norm;
+			intersect = true;
+			hit = e[i];
+		}
 	}
-	if (k != nullptr) {
-		res.x = 255 / abs(norm->x);
-		res.y = 255 / abs(norm->y);
-		res.z = 255 / abs(norm->z);
+	Plano** p = col->getColPlanos();
+	for (int i = 0; i < col->getCantPlanos(); i++) {
+		j = p[i]->intersectRay(rayo, norm, hitPoint, 7);
+		if (j && norma(*hitPoint) < norma(hitPoint_min)) {
+			hitPoint_min = *hitPoint;
+			norm_min = *norm;
+			intersect = true;
+			hit = p[i];
+		}
 	}
+	if (intersect) {
+		res.x = hit->getMat().diffuse.x;
+		res.y = hit->getMat().diffuse.y;
+		res.z = hit->getMat().diffuse.z;
+	}
+	delete hitPoint;
+	delete norm;
 	return res;
 };
 
@@ -96,6 +123,87 @@ int main(int argc, char *argv[]) {
 	center.z = obPos->FloatAttribute("z");
 	Esfera* sphere2 = new Esfera(center, radius, mat);
 
+	XMLElement* planes = settings->FirstChild()->NextSibling()->NextSibling()->FirstChildElement();
+
+	mat.reflective = planes->FloatAttribute("refl");
+	mat.refractive = planes->FloatAttribute("refr");
+	mat.specular = planes->FloatAttribute("specular");
+	mat.IOR = planes->FloatAttribute("IOR");
+	mat.diffuse.x = planes->FloatAttribute("colorR");
+	mat.diffuse.y = planes->FloatAttribute("colorG");
+	mat.diffuse.z = planes->FloatAttribute("colorB");
+	obPos = planes->FirstChildElement();
+	float a, b, c, d;
+	a = obPos->FloatAttribute("A");
+	b = obPos->FloatAttribute("B");
+	c = obPos->FloatAttribute("C");
+	d = obPos->FloatAttribute("D");
+	Plano* plane1 = new Plano(a,b,c,d,mat);
+
+	planes = planes->NextSiblingElement();
+
+	mat.reflective = planes->FloatAttribute("refl");
+	mat.refractive = planes->FloatAttribute("refr");
+	mat.specular = planes->FloatAttribute("specular");
+	mat.IOR = planes->FloatAttribute("IOR");
+	mat.diffuse.x = planes->FloatAttribute("colorR");
+	mat.diffuse.y = planes->FloatAttribute("colorG");
+	mat.diffuse.z = planes->FloatAttribute("colorB");
+	obPos = planes->FirstChildElement();
+	a = obPos->FloatAttribute("A");
+	b = obPos->FloatAttribute("B");
+	c = obPos->FloatAttribute("C");
+	d = obPos->FloatAttribute("D");
+	Plano* plane2 = new Plano(a, b, c, d, mat);
+
+	planes = planes->NextSiblingElement();
+
+	mat.reflective = planes->FloatAttribute("refl");
+	mat.refractive = planes->FloatAttribute("refr");
+	mat.specular = planes->FloatAttribute("specular");
+	mat.IOR = planes->FloatAttribute("IOR");
+	mat.diffuse.x = planes->FloatAttribute("colorR");
+	mat.diffuse.y = planes->FloatAttribute("colorG");
+	mat.diffuse.z = planes->FloatAttribute("colorB");
+	obPos = planes->FirstChildElement();
+	a = obPos->FloatAttribute("A");
+	b = obPos->FloatAttribute("B");
+	c = obPos->FloatAttribute("C");
+	d = obPos->FloatAttribute("D");
+	Plano* plane3 = new Plano(a, b, c, d, mat);
+
+	planes = planes->NextSiblingElement();
+
+	mat.reflective = planes->FloatAttribute("refl");
+	mat.refractive = planes->FloatAttribute("refr");
+	mat.specular = planes->FloatAttribute("specular");
+	mat.IOR = planes->FloatAttribute("IOR");
+	mat.diffuse.x = planes->FloatAttribute("colorR");
+	mat.diffuse.y = planes->FloatAttribute("colorG");
+	mat.diffuse.z = planes->FloatAttribute("colorB");
+	obPos = planes->FirstChildElement();
+	a = obPos->FloatAttribute("A");
+	b = obPos->FloatAttribute("B");
+	c = obPos->FloatAttribute("C");
+	d = obPos->FloatAttribute("D");
+	Plano* plane4 = new Plano(a, b, c, d, mat);
+
+	planes = planes->NextSiblingElement();
+
+	mat.reflective = planes->FloatAttribute("refl");
+	mat.refractive = planes->FloatAttribute("refr");
+	mat.specular = planes->FloatAttribute("specular");
+	mat.IOR = planes->FloatAttribute("IOR");
+	mat.diffuse.x = planes->FloatAttribute("colorR");
+	mat.diffuse.y = planes->FloatAttribute("colorG");
+	mat.diffuse.z = planes->FloatAttribute("colorB");
+	obPos = planes->FirstChildElement();
+	a = obPos->FloatAttribute("A");
+	b = obPos->FloatAttribute("B");
+	c = obPos->FloatAttribute("C");
+	d = obPos->FloatAttribute("D");
+	Plano* plane5 = new Plano(a, b, c, d, mat);
+
 	FIBITMAP* bitmap = FreeImage_Allocate(cam.resW, cam.resH, 24);
 	RGBQUAD color;
 	vec3 pixel;
@@ -105,7 +213,11 @@ int main(int argc, char *argv[]) {
 	col->inicializarCol(3, 3, 3, 3);
 	col->agregarEsfera(sphere1);
 	col->agregarEsfera(sphere2);
-
+	col->agregarPlano(plane1);
+	col->agregarPlano(plane2);
+	col->agregarPlano(plane3);
+	col->agregarPlano(plane4);
+	col->agregarPlano(plane5);
 	for (int i = 0; i < cam.resH; i++) {
 		for (int j = 0; j < cam.resW; j++) {
 			ray rayo;
@@ -116,9 +228,7 @@ int main(int argc, char *argv[]) {
 			rayo.dir.y = ((rayo.origin.y + (2 / cam.resH) * i) - 1) ;
 			rayo.dir.z = -1.0 / tan(cam.fov / 2.0);
 			rayo.dir = rayo.dir*(1/norma(rayo.dir));
-
 			pixel = traza_RR(rayo, 1);
-
 			color.rgbRed = pixel.x;
 			color.rgbGreen = pixel.y;
 			color.rgbBlue = pixel.z;

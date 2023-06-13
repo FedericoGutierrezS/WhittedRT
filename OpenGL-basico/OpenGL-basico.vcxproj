@@ -82,11 +82,13 @@
     <ClCompile Include="..\include\tinyxml2.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="ColeccionObjetos.cpp" />
+    <ClCompile Include="plane.cpp" />
     <ClCompile Include="sphere.cpp" />
     <ClCompile Include="util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ColeccionObjetos.h" />
+    <ClInclude Include="plane.h" />
     <ClInclude Include="primitiva.h" />
     <ClInclude Include="sphere.h" />
     <ClInclude Include="util.h" />

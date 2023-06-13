@@ -4,9 +4,20 @@
 #define UTIL_H
 
 struct vec3 {
-	float x = 0;
-	float y = 0;
-	float z = 0;
+	float x;
+	float y;
+	float z;
+	vec3(float a, float b, float c) {
+		x = a;
+		y = b;
+		z = c;
+	}
+	vec3() {
+		x = 0;
+		y = 0;
+		z = 0;
+	}
+
 };
 
 struct ray {

@@ -9,9 +9,10 @@ protected:
 	vec3 position;
 	material mat;
 public:
+	Primitive() {
+	};
 	vec3 getPos() { return position; };
 	material getMat() { return mat; };
 	void setMat(material mate) { mat = mate; };
 	void setPos(vec3 pos) { position = pos; };
-	Primitive* intersectRay(ray rayo, vec3* norm, vec3* hitPoint);
 };
