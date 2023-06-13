@@ -20,16 +20,12 @@ struct camera {
 	float fov;
 };
 
-vec3 traza_RR(ray rayo, int alt) {
+Primitive* intersect(ray rayo,vec3 &normalO,vec3 &hitPointO) {
 	vec3* norm = new vec3(100, 100, 100);
 	vec3* hitPoint = new vec3(100, 100, 100);
 	vec3 hitPoint_min(100, 100, 100);
-	vec3 norm_min(100,100,100);
-	vec3 res;
+	vec3 norm_min(100, 100, 100);
 	Primitive* hit;
-	res.x = 0;
-	res.y = 0;
-	res.z = 0;
 	bool intersect = false;
 	bool j = false;
 	ColObjetos* col = NULL;
@@ -59,12 +55,25 @@ vec3 traza_RR(ray rayo, int alt) {
 		}
 	}
 	if (intersect) {
-		res.x = hit->getMat().diffuse.x;
-		res.y = hit->getMat().diffuse.y;
-		res.z = hit->getMat().diffuse.z;
+		normalO = norm_min;
+		hitPointO = hitPoint_min;
+		return hit;
 	}
-	delete hitPoint;
-	delete norm;
+	else return NULL;
+}
+
+vec3 traza_RR(ray rayo, int alt) {
+	vec3 res;
+	res.x = 0;
+	res.y = 0;
+	res.z = 0;
+	vec3 norm, hitPoint;
+	Primitive* inter = intersect(rayo, norm, hitPoint);
+	if (inter != NULL) {//(((OldValue - OldMin) * (NewMax - NewMin)) / (OldMax - OldMin)) + NewMin
+		res.x = 255*norm.x; //inter->getMat().diffuse.x;
+		res.y = 255*norm.y; //inter->getMat().diffuse.y;
+		res.z = 255*norm.z; //inter->getMat().diffuse.z
+	}
 	return res;
 };
 
@@ -207,6 +216,7 @@ int main(int argc, char *argv[]) {
 	FIBITMAP* bitmap = FreeImage_Allocate(cam.resW, cam.resH, 24);
 	RGBQUAD color;
 	vec3 pixel;
+	ray rayo;
 	float camRatio = cam.resW / cam.resH;
 	ColObjetos* col = NULL;
 	col = col->getInstance();
@@ -220,7 +230,6 @@ int main(int argc, char *argv[]) {
 	col->agregarPlano(plane5);
 	for (int i = 0; i < cam.resH; i++) {
 		for (int j = 0; j < cam.resW; j++) {
-			ray rayo;
 			rayo.origin.x = cam.origin.x;
 			rayo.origin.y = cam.origin.y;
 			rayo.origin.z = cam.origin.z;
