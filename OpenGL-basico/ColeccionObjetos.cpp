@@ -21,6 +21,7 @@ ColObjetos* ColObjetos::getInstance() {
 void ColObjetos::inicializarCol(int cantEsfera, int cantPlano, int cantCilindro, int cantTriangulo) {
 	this->esferas = new Esfera * [cantEsfera];
 	this->planos = new Plano * [cantPlano];
+	this->cilindros = new Cilindro * [cantCilindro];
 	this->triangulos = new Triangulo * [cantTriangulo];
 	cantEsferas = 0;
 	cantPlanos = 0;
@@ -38,6 +39,10 @@ Esfera** ColObjetos::getColEsferas() {
 
 Plano** ColObjetos::getColPlanos() {
 	return planos;
+}
+
+Cilindro** ColObjetos::getColCilindros() {
+	return cilindros;
 }
 
 Triangulo** ColObjetos::getColTriangulos() {
@@ -83,4 +88,9 @@ void ColObjetos::agregarPlano(Plano* obj) {
 void ColObjetos::agregarTriangulo(Triangulo* obj) {
 	triangulos[cantTriangulos] = obj;
 	cantTriangulos++;
+}
+
+void ColObjetos::agregarCilindro(Cilindro* obj) {
+	cilindros[cantCilindros] = obj;
+	cantCilindros++;
 }

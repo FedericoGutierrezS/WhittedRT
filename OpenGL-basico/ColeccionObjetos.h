@@ -1,12 +1,14 @@
 #include "sphere.h"
 #include "plane.h"
 #include "triangle.h"
+#include "cylinder.h"
 
 class ColObjetos {
 private:
 	Esfera** esferas;
 	Plano** planos;
 	Triangulo** triangulos;
+	Cilindro** cilindros;
 	static ColObjetos* instancia;
 	int cantEsferas;
 	int cantPlanos;
@@ -22,6 +24,7 @@ public:
 	Esfera** getColEsferas();
 	Plano** getColPlanos();
 	Triangulo** getColTriangulos();
+	Cilindro** getColCilindros();
 	void inicializarCol(int, int, int, int);
 	int getCantEsferas();
 	int getCantPlanos();
@@ -34,4 +37,5 @@ public:
 	void agregarEsfera(Esfera*);
 	void agregarPlano(Plano*);
 	void agregarTriangulo(Triangulo*);
+	void agregarCilindro(Cilindro*);
 };

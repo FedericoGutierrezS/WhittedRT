@@ -7,6 +7,7 @@
 #endif
 #include "OpenGL-basico/sphere.h"
 #include "OpenGL-basico/plane.h"
+#include "OpenGL-basico/cylinder.h"
 #include "OpenGL-basico/ColeccionObjetos.h"
 
 using namespace std;
@@ -52,6 +53,17 @@ Primitive* intersect(ray rayo,vec3 &normalO,vec3 &hitPointO) {
 			norm_min = *norm;
 			intersect = true;
 			hit = p[i];
+		}
+	}
+
+	Cilindro** c = col->getColCilindros();
+	for (int i = 0; i < col->getCantCilindros(); i++) {
+		j = c[i]->intersectRay(rayo, norm, hitPoint);
+		if (j && norma(*hitPoint) < norma(hitPoint_min)) {
+			hitPoint_min = *hitPoint;
+			norm_min = *norm;
+			intersect = true;
+			hit = c[i];
 		}
 	}
 
@@ -184,6 +196,9 @@ int main(int argc, char *argv[]) {
 		col->agregarTriangulo(new Triangulo(v1,v2,v3, mat));
 		tris = tris->NextSiblingElement();
 	}
+	mat.diffuse.z = 255;
+	Cilindro* cil = new Cilindro(vec3(-0.1, 0.2, -1.25), 0.06, 0.08, mat);
+	col->agregarCilindro(cil);
 	FIBITMAP* bitmap = FreeImage_Allocate(cam.resW, cam.resH, 24);
 	RGBQUAD color;
 	vec3 pixel;
