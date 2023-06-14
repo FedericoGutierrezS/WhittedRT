@@ -1,20 +1,27 @@
 #include "ColeccionObjetos.h"
+#include <iostream>
 
 ColObjetos* ColObjetos::instancia = NULL;
 
 ColObjetos::ColObjetos() {
 	instancia = NULL;
+	esferas = NULL;
+	planos = NULL;
+	triangulos = NULL;
 }
 
 ColObjetos* ColObjetos::getInstance() {
-	if (instancia == NULL) instancia = new ColObjetos();
+	if (instancia == NULL) {
+		instancia = new ColObjetos();
+		return instancia;
+	}
 	else return instancia;
 }
 
 void ColObjetos::inicializarCol(int cantEsfera, int cantPlano, int cantCilindro, int cantTriangulo) {
-	esferas = new Esfera * [cantEsferas];
-	planos = new Plano * [cantPlano];
-	triangulos = new Triangulo * [cantTriangulo];
+	this->esferas = new Esfera * [cantEsfera];
+	this->planos = new Plano * [cantPlano];
+	this->triangulos = new Triangulo * [cantTriangulo];
 	cantEsferas = 0;
 	cantPlanos = 0;
 	cantCilindros = 0;

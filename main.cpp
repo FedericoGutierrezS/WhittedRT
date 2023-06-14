@@ -100,7 +100,6 @@ int main(int argc, char *argv[]) {
 
 	XMLElement* settings = doc.FirstChildElement();
 	col->inicializarCol(settings->FloatAttribute("spheres") , settings->FloatAttribute("planes"), settings->FloatAttribute("cilinders"), settings->FloatAttribute("tris"));
-
 	camera cam;
 	XMLElement* camera = settings->FirstChildElement();
 	cam.resW = camera->FloatAttribute("resW");

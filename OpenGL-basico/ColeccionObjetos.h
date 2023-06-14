@@ -1,4 +1,3 @@
-#pragma once
 #include "sphere.h"
 #include "plane.h"
 #include "triangle.h"
