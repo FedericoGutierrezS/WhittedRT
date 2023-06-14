@@ -1,8 +1,12 @@
 ﻿  main.cpp
-C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(216,53): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(216,43): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(238,22): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(241,24): warning C4244: '=': conversión de 'float' a 'BYTE'; posible pérdida de datos
-C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(242,26): warning C4244: '=': conversión de 'float' a 'BYTE'; posible pérdida de datos
-C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(243,25): warning C4244: '=': conversión de 'float' a 'BYTE'; posible pérdida de datos
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(102,159): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(102,120): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(102,84): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(102,46): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(188,53): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(188,43): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(201,22): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(204,24): warning C4244: '=': conversión de 'float' a 'BYTE'; posible pérdida de datos
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(205,26): warning C4244: '=': conversión de 'float' a 'BYTE'; posible pérdida de datos
+C:\Users\fgutierrez\source\repos\FedericoGutierrezS\WhittedRT\main.cpp(206,25): warning C4244: '=': conversión de 'float' a 'BYTE'; posible pérdida de datos
   OpenGL-basico.vcxproj -> C:\Users\fgutierrez\Source\Repos\FedericoGutierrezS\WhittedRT\Debug\OpenGL-basico.exe

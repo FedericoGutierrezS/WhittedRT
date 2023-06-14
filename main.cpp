@@ -54,6 +54,17 @@ Primitive* intersect(ray rayo,vec3 &normalO,vec3 &hitPointO) {
 			hit = p[i];
 		}
 	}
+
+	Triangulo** t = col->getColTriangulos();
+	for (int i = 0; i < col->getCantTriangulos(); i++) {
+		j = t[i]->intersectRay(rayo, norm, hitPoint);
+		if (j && norma(*hitPoint) < norma(hitPoint_min)) {
+			hitPoint_min = *hitPoint;
+			norm_min = *norm;
+			intersect = true;
+			hit = t[i];
+		}
+	}
 	if (intersect) {
 		normalO = norm_min;
 		hitPointO = hitPoint_min;
@@ -69,10 +80,10 @@ vec3 traza_RR(ray rayo, int alt) {
 	res.z = 0;
 	vec3 norm, hitPoint;
 	Primitive* inter = intersect(rayo, norm, hitPoint);
-	if (inter != NULL) {//(((OldValue - OldMin) * (NewMax - NewMin)) / (OldMax - OldMin)) + NewMin
-		res.x = 255*norm.x; //inter->getMat().diffuse.x;
-		res.y = 255*norm.y; //inter->getMat().diffuse.y;
-		res.z = 255*norm.z; //inter->getMat().diffuse.z
+	if (inter != NULL) {
+		res.x = inter->getMat().diffuse.x;
+		res.y = inter->getMat().diffuse.y;
+		res.z = inter->getMat().diffuse.z;
 	}
 	return res;
 };
@@ -83,7 +94,13 @@ int main(int argc, char *argv[]) {
 	FreeImage_Initialise();
 	XMLDocument doc;
 	doc.LoadFile("../settings.xml");
+
+	ColObjetos* col = NULL;
+	col = col->getInstance();
+
 	XMLElement* settings = doc.FirstChildElement();
+	col->inicializarCol(settings->FloatAttribute("spheres") , settings->FloatAttribute("planes"), settings->FloatAttribute("cilinders"), settings->FloatAttribute("tris"));
+
 	camera cam;
 	XMLElement* camera = settings->FirstChildElement();
 	cam.resW = camera->FloatAttribute("resW");
@@ -98,136 +115,82 @@ int main(int argc, char *argv[]) {
 	cam.origin.y = camera->FloatAttribute("y");
 	cam.origin.z = camera->FloatAttribute("z");
 
-	XMLElement* spheres = settings->FirstChild()->NextSibling()->FirstChildElement();
 	material mat;
-	mat.reflective = spheres->FloatAttribute("refl");
-	mat.refractive = spheres->FloatAttribute("refr");
-	float radius = spheres->FloatAttribute("radius");
-	mat.specular = spheres->FloatAttribute("specular");
-	mat.IOR = spheres->FloatAttribute("IOR");
-	mat.diffuse.x = spheres->FloatAttribute("colorR");
-	mat.diffuse.y = spheres->FloatAttribute("colorG");
-	mat.diffuse.z = spheres->FloatAttribute("colorB");
-	XMLElement* obPos = spheres->FirstChildElement();
-	vec3 center;
-	center.x = obPos->FloatAttribute("x");
-	center.y = obPos->FloatAttribute("y");
-	center.z = obPos->FloatAttribute("z");
-	Esfera* sphere1 = new Esfera(center,radius,mat);
-	
-	spheres = spheres->NextSiblingElement();
 
-	mat.reflective = spheres->FloatAttribute("refl");
-	mat.refractive = spheres->FloatAttribute("refr");
-	radius = spheres->FloatAttribute("radius");
-	mat.specular = spheres->FloatAttribute("specular");
-	mat.IOR = spheres->FloatAttribute("IOR");
-	mat.diffuse.x = spheres->FloatAttribute("colorR");
-	mat.diffuse.y = spheres->FloatAttribute("colorG");
-	mat.diffuse.z = spheres->FloatAttribute("colorB");
-	obPos = spheres->FirstChildElement();
-	center;
-	center.x = obPos->FloatAttribute("x");
-	center.y = obPos->FloatAttribute("y");
-	center.z = obPos->FloatAttribute("z");
-	Esfera* sphere2 = new Esfera(center, radius, mat);
+	XMLElement* spheres = settings->FirstChild()->NextSibling()->FirstChildElement();
+
+	vec3 center;
+	float radius;
+	XMLElement* obPos = spheres->FirstChildElement();
+
+	for (int i = 0; i < col->getCantEsferasTot(); i++) {
+		mat.reflective = spheres->FloatAttribute("refl");
+		mat.refractive = spheres->FloatAttribute("refr");
+		radius = spheres->FloatAttribute("radius");
+		mat.specular = spheres->FloatAttribute("specular");
+		mat.IOR = spheres->FloatAttribute("IOR");
+		mat.diffuse.x = spheres->FloatAttribute("colorR");
+		mat.diffuse.y = spheres->FloatAttribute("colorG");
+		mat.diffuse.z = spheres->FloatAttribute("colorB");
+		obPos = spheres->FirstChildElement();
+		center;
+		center.x = obPos->FloatAttribute("x");
+		center.y = obPos->FloatAttribute("y");
+		center.z = obPos->FloatAttribute("z");
+		col->agregarEsfera(new Esfera(center, radius, mat));
+		spheres = spheres->NextSiblingElement();
+	}
 
 	XMLElement* planes = settings->FirstChild()->NextSibling()->NextSibling()->FirstChildElement();
-
-	mat.reflective = planes->FloatAttribute("refl");
-	mat.refractive = planes->FloatAttribute("refr");
-	mat.specular = planes->FloatAttribute("specular");
-	mat.IOR = planes->FloatAttribute("IOR");
-	mat.diffuse.x = planes->FloatAttribute("colorR");
-	mat.diffuse.y = planes->FloatAttribute("colorG");
-	mat.diffuse.z = planes->FloatAttribute("colorB");
-	obPos = planes->FirstChildElement();
 	float a, b, c, d;
-	a = obPos->FloatAttribute("A");
-	b = obPos->FloatAttribute("B");
-	c = obPos->FloatAttribute("C");
-	d = obPos->FloatAttribute("D");
-	Plano* plane1 = new Plano(a,b,c,d,mat);
 
-	planes = planes->NextSiblingElement();
+	for(int i = 0; i < col->getCantPlanosTot(); i++) {
+		mat.reflective = planes->FloatAttribute("refl");
+		mat.refractive = planes->FloatAttribute("refr");
+		mat.specular = planes->FloatAttribute("specular");
+		mat.IOR = planes->FloatAttribute("IOR");
+		mat.diffuse.x = planes->FloatAttribute("colorR");
+		mat.diffuse.y = planes->FloatAttribute("colorG");
+		mat.diffuse.z = planes->FloatAttribute("colorB");
+		obPos = planes->FirstChildElement();
+		a = obPos->FloatAttribute("A");
+		b = obPos->FloatAttribute("B");
+		c = obPos->FloatAttribute("C");
+		d = obPos->FloatAttribute("D");
+		col->agregarPlano(new Plano(a, b, c, d, mat));
+		planes = planes->NextSiblingElement();
+	}
 
-	mat.reflective = planes->FloatAttribute("refl");
-	mat.refractive = planes->FloatAttribute("refr");
-	mat.specular = planes->FloatAttribute("specular");
-	mat.IOR = planes->FloatAttribute("IOR");
-	mat.diffuse.x = planes->FloatAttribute("colorR");
-	mat.diffuse.y = planes->FloatAttribute("colorG");
-	mat.diffuse.z = planes->FloatAttribute("colorB");
-	obPos = planes->FirstChildElement();
-	a = obPos->FloatAttribute("A");
-	b = obPos->FloatAttribute("B");
-	c = obPos->FloatAttribute("C");
-	d = obPos->FloatAttribute("D");
-	Plano* plane2 = new Plano(a, b, c, d, mat);
+	XMLElement* tris = settings->FirstChild()->NextSibling()->NextSibling()->NextSibling()->FirstChildElement();
+	vec3 v1, v2, v3;
 
-	planes = planes->NextSiblingElement();
-
-	mat.reflective = planes->FloatAttribute("refl");
-	mat.refractive = planes->FloatAttribute("refr");
-	mat.specular = planes->FloatAttribute("specular");
-	mat.IOR = planes->FloatAttribute("IOR");
-	mat.diffuse.x = planes->FloatAttribute("colorR");
-	mat.diffuse.y = planes->FloatAttribute("colorG");
-	mat.diffuse.z = planes->FloatAttribute("colorB");
-	obPos = planes->FirstChildElement();
-	a = obPos->FloatAttribute("A");
-	b = obPos->FloatAttribute("B");
-	c = obPos->FloatAttribute("C");
-	d = obPos->FloatAttribute("D");
-	Plano* plane3 = new Plano(a, b, c, d, mat);
-
-	planes = planes->NextSiblingElement();
-
-	mat.reflective = planes->FloatAttribute("refl");
-	mat.refractive = planes->FloatAttribute("refr");
-	mat.specular = planes->FloatAttribute("specular");
-	mat.IOR = planes->FloatAttribute("IOR");
-	mat.diffuse.x = planes->FloatAttribute("colorR");
-	mat.diffuse.y = planes->FloatAttribute("colorG");
-	mat.diffuse.z = planes->FloatAttribute("colorB");
-	obPos = planes->FirstChildElement();
-	a = obPos->FloatAttribute("A");
-	b = obPos->FloatAttribute("B");
-	c = obPos->FloatAttribute("C");
-	d = obPos->FloatAttribute("D");
-	Plano* plane4 = new Plano(a, b, c, d, mat);
-
-	planes = planes->NextSiblingElement();
-
-	mat.reflective = planes->FloatAttribute("refl");
-	mat.refractive = planes->FloatAttribute("refr");
-	mat.specular = planes->FloatAttribute("specular");
-	mat.IOR = planes->FloatAttribute("IOR");
-	mat.diffuse.x = planes->FloatAttribute("colorR");
-	mat.diffuse.y = planes->FloatAttribute("colorG");
-	mat.diffuse.z = planes->FloatAttribute("colorB");
-	obPos = planes->FirstChildElement();
-	a = obPos->FloatAttribute("A");
-	b = obPos->FloatAttribute("B");
-	c = obPos->FloatAttribute("C");
-	d = obPos->FloatAttribute("D");
-	Plano* plane5 = new Plano(a, b, c, d, mat);
-
+	for (int i = 0; i < col->getCantTriangulosTot(); i++) {
+		mat.reflective = tris->FloatAttribute("refl");
+		mat.refractive = tris->FloatAttribute("refr");
+		mat.specular = tris->FloatAttribute("specular");
+		mat.IOR = tris->FloatAttribute("IOR");
+		mat.diffuse.x = tris->FloatAttribute("colorR");
+		mat.diffuse.y = tris->FloatAttribute("colorG");
+		mat.diffuse.z = tris->FloatAttribute("colorB");
+		obPos = tris->FirstChildElement();
+		v1.x = obPos->FloatAttribute("v1x");
+		v1.y = obPos->FloatAttribute("v1y");
+		v1.z = obPos->FloatAttribute("v1z");
+		v2.x = obPos->FloatAttribute("v2x");
+		v2.y = obPos->FloatAttribute("v2y");
+		v2.z = obPos->FloatAttribute("v2z");
+		v3.x = obPos->FloatAttribute("v3x");
+		v3.y = obPos->FloatAttribute("v3y");
+		v3.z = obPos->FloatAttribute("v3z");
+		col->agregarTriangulo(new Triangulo(v1,v2,v3, mat));
+		tris = tris->NextSiblingElement();
+	}
 	FIBITMAP* bitmap = FreeImage_Allocate(cam.resW, cam.resH, 24);
 	RGBQUAD color;
 	vec3 pixel;
 	ray rayo;
 	float camRatio = cam.resW / cam.resH;
-	ColObjetos* col = NULL;
-	col = col->getInstance();
-	col->inicializarCol(3, 3, 3, 3);
-	col->agregarEsfera(sphere1);
-	col->agregarEsfera(sphere2);
-	col->agregarPlano(plane1);
-	col->agregarPlano(plane2);
-	col->agregarPlano(plane3);
-	col->agregarPlano(plane4);
-	col->agregarPlano(plane5);
+	
 	for (int i = 0; i < cam.resH; i++) {
 		for (int j = 0; j < cam.resW; j++) {
 			rayo.origin.x = cam.origin.x;

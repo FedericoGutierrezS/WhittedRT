@@ -7,7 +7,9 @@ bool  Esfera::intersectRay(ray rayo, vec3 *norm, vec3* hitPoint) {
 	if (delta >= 0) {
 		float d1 = -(rayo.dir * a) + sqrt(delta);
 		float d2 = -(rayo.dir * a) - sqrt(delta);
-		*hitPoint =rayo.origin + rayo.dir * fminf(abs(d1),abs(d2));
+		if(abs(d1)>abs(d2))
+			*hitPoint =rayo.origin + rayo.dir * d2;
+		else *hitPoint = rayo.origin + rayo.dir * d1;
 		*norm = (position - *hitPoint) * (-1);
 		*norm = *norm * (1 / norma(*norm));
 		return true;

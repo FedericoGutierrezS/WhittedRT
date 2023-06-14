@@ -31,3 +31,37 @@ vec3 operator*(vec3 v, float a) {
 float norma(vec3 v) {
 	return sqrt(pow(v.x, 2) + pow(v.y, 2) + pow(v.z, 2));
 };
+
+vec3 cross(vec3 a, vec3 b) {
+	return vec3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
+}
+
+
+vec2 operator-(vec2 v, vec2 f) {
+	vec2 res;
+	res.x = v.x - f.x;
+	res.y = v.y - f.y;
+	return res;
+}
+
+vec2 operator+(vec2 v, vec2 f) {
+	vec2 res;
+	res.x = v.x + f.x;
+	res.y = v.y + f.y;
+	return res;
+}
+
+float operator*(vec2 v, vec2 f) {
+	return v.x * f.x + v.y * f.y;
+}
+
+vec2 operator*(vec2 v, float a) {
+	vec2 res;
+	res.x = v.x * a;
+	res.y = v.y * a;
+	return res;
+}
+
+float norma(vec2 v) {
+	return sqrt(pow(v.x, 2) + pow(v.y, 2));
+};
