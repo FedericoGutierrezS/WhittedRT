@@ -15,4 +15,5 @@ public:
 	material getMat() { return mat; };
 	void setMat(material mate) { mat = mate; };
 	void setPos(vec3 pos) { position = pos; };
+	bool intersectRay(ray r,vec3* n,vec3 h);
 };
