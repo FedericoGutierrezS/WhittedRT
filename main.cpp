@@ -24,7 +24,7 @@ struct camera {
 struct Light {
 	vec3 position;
 	vec3 dir;
-	float intensity;
+	vec3 intensity;
 	vec3 color;
 };
 
@@ -92,14 +92,17 @@ Primitive* intersect(ray rayo,vec3 &normalO,vec3 &hitPointO) {
 	else return NULL;
 }
 
-vec3 traza_RR(ray, int);
+//vec3 traza_RR(ray, int);
 
-vec3 sombra_RR(Primitive* obj, ray rayo, vec3 hitPoint, vec3 normal, int alt) {
+vec3 sombra_RR(Primitive* obj, ray rayo, vec3 hitPoint, vec3 normal, int alt, Light* light) {
 	vec3 color(20, 20, 20);
 	ray rayo_s;
-	rayo_s.origin = vec3(0, -0.5, -1);
-	rayo_s.dir = vec3(0, 1, 0);
-	vec3 light_inten = vec3(0.3,0.3,0.3);
+	rayo_s.origin = light->position;
+	float ligthDirNorma = norma(light->position - hitPoint);
+	vec3 lightDir = (light->position - hitPoint) * (1 / ligthDirNorma);
+	rayo_s.dir = lightDir;
+	vec3 light_inten = light->intensity;
+
 	bool inShadow = false;
 	ray shadowRay;
 	shadowRay.origin = hitPoint;
@@ -109,6 +112,7 @@ vec3 sombra_RR(Primitive* obj, ray rayo, vec3 hitPoint, vec3 normal, int alt) {
 	Primitive* a = intersect(shadowRay, norm, hit);
 	inShadow = a != NULL;
 	if (!inShadow)return cross(light_inten, obj->getMat().diffuse);
+
 	else {
 		vec3 R = shadowRay.dir * (-1) - (normal* 2 * (shadowRay.dir * normal));
 		float N_dot_L = max(0.0f, normal * shadowRay.dir);
@@ -122,7 +126,7 @@ vec3 sombra_RR(Primitive* obj, ray rayo, vec3 hitPoint, vec3 normal, int alt) {
 };
 
 
-vec3 traza_RR(ray rayo, int alt) {
+vec3 traza_RR(ray rayo, int alt, Light* light) {
 	vec3 res;
 	res.x = 0;
 	res.y = 0;
@@ -130,10 +134,64 @@ vec3 traza_RR(ray rayo, int alt) {
 	vec3 norm, hitPoint;
 	Primitive* inter = intersect(rayo, norm, hitPoint);
 	if (inter != NULL) {
-		return sombra_RR(inter, rayo, hitPoint, norm, alt);
+		return sombra_RR(inter, rayo, hitPoint, norm, alt, light);
 	}
 	else return vec3(20, 20, 20);
 };
+
+vec3 luz_RR(Light* light) {
+	vec3 res;
+	res.x = 0;
+	res.y = 0;
+	res.z = 0;
+	vec3 norm, hitPoint;
+	ray auxRay;
+	auxRay.origin = light->position;
+	auxRay.dir = light->dir;
+	Primitive* inter = intersect(auxRay, norm, hitPoint);
+	if (inter != NULL) {
+		float ligthDirNorma = norma(light->position - hitPoint);
+		vec3 lightDir = (light->position - hitPoint) * (1 / ligthDirNorma);
+
+		float diffuseFactor = light->dir * norm;
+
+		/*if (diffuseFactor > 0.0) {
+			res.x = inter->getMat().diffuse.x * light->intensity * diffuseFactor * light->color.x;
+			res.y = inter->getMat().diffuse.y * light->intensity * diffuseFactor * light->color.y;
+			res.z = inter->getMat().diffuse.z * light->intensity * diffuseFactor * light->color.z;
+		}*/
+	}
+	return res;
+
+}
+
+vec3 luz_RR2(Primitive* obj, ray rayo, vec3 hitPoint, vec3 normal, int alt, Light* light) {
+		vec3 res;
+		res.x = obj->getMat().diffuse.x;
+		res.y = obj->getMat().diffuse.y;
+		res.z = obj->getMat().diffuse.z;
+
+
+		vec3 normLight, hitPointLight;
+		ray lightRay;
+		lightRay.dir = light->dir;
+		lightRay.origin = light->position;
+
+		Primitive* inter = intersect(lightRay, normLight, hitPointLight);
+		if (inter != NULL) {
+			float ligthDirNorma = norma(light->position - hitPointLight);
+			vec3 lightDir = (light->position - hitPointLight) * (1 / ligthDirNorma);
+
+			float diffuseFactor = lightDir * normal;
+
+			//if (diffuseFactor > 0.0) {
+			//	res.x = inter->getMat().diffuse.x * light->intensity * diffuseFactor * light->color.x;
+			//	res.y = inter->getMat().diffuse.y * light->intensity * diffuseFactor * light->color.y;
+			//	res.z = inter->getMat().diffuse.z * light->intensity * diffuseFactor * light->color.z;
+			//}
+		}
+	return res;
+}
 
 
 int main(int argc, char *argv[]) {
@@ -262,7 +320,9 @@ int main(int argc, char *argv[]) {
 	light->position.x = 0.0;
 	light->position.y = 0.0;
 	light->position.z = -1.25;
-	light->intensity = 1.0;
+	light->intensity.x = 1.0;
+	light->intensity.y = 1.0;
+	light->intensity.z = 1.0;
 	light->color.x = 1.0;
 	light->color.y = 1.0;
 	light->color.z = 1.0;
@@ -281,9 +341,9 @@ int main(int argc, char *argv[]) {
 			light->dir.x = ((light->position.x + (2 / cam.resW) * j) - 1) * camRatio;
 			light->dir.y = ((light->position.y + (2 / cam.resW) * j) - 1) * camRatio;
 			light->dir.z = ((light->position.z + (2 / cam.resW) * j) - 1) * camRatio;
+			light->dir = light->dir * (1 / norma(light->dir));
 
 			pixel = traza_RR(rayo, 1, light);
-			pixel = traza_RR(rayo, 1);
 			color.rgbRed = pixel.x;
 			color.rgbGreen = pixel.y;
 			color.rgbBlue = pixel.z;
