@@ -29,10 +29,10 @@ bool  Cilindro::intersectRay(ray rayo, vec3* norm, vec3* hitPoint) {
 	if (((y1 < altura + eps && y2> altura - eps) || (y2 < altura + eps && y1> altura - eps)) && av.y >rayo.origin.y) t = t4;
 	*hitPoint = rayo.origin + (rayo.dir * t);
 	if (hitPoint->y > this->altura + position.y + eps || hitPoint->y < 0 + position.y - eps) return false;
-	if (t == t3) *norm = vec3(0, 1, 0);
-	if (t == t4) *norm = vec3(0, -1, 0);
+	if (t == t3) *norm = vec3(0, -1, 0);
+	if (t == t4) *norm = vec3(0, 1, 0);
 	if (t == t1 || t == t2) {
-		*norm = vec3(hitPoint->x, 0, hitPoint->z);
+		*norm = (vec3(hitPoint->x, 0, hitPoint->z) - position);
 		*norm = *norm * (1 / norma(*norm));
 	};
 	return true;

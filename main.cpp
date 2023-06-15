@@ -318,7 +318,7 @@ int main(int argc, char *argv[]) {
 
 	Light* light = new Light();
 	light->position.x = 0.0;
-	light->position.y = 0.0;
+	light->position.y = 0.40;
 	light->position.z = -1.25;
 	light->intensity.x = 1.0;
 	light->intensity.y = 1.0;
@@ -333,8 +333,8 @@ int main(int argc, char *argv[]) {
 			rayo.origin.x = cam.origin.x;
 			rayo.origin.y = cam.origin.y;
 			rayo.origin.z = cam.origin.z;
-			rayo.dir.x = ((rayo.origin.x + (2 / cam.resW) * j) - 1)*camRatio;
-			rayo.dir.y = ((rayo.origin.y + (2 / cam.resH) * i) - 1) ;
+			rayo.dir.x = -((rayo.origin.x + (2 / cam.resW) * j) - 1)*camRatio;
+			rayo.dir.y = -((rayo.origin.y + (2 / cam.resH) * i) - 1) ;
 			rayo.dir.z = -1.0 / tan(cam.fov / 2.0);
 			rayo.dir = rayo.dir*(1/norma(rayo.dir));
 
