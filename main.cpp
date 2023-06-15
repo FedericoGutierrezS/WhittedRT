@@ -93,9 +93,9 @@ vec3 traza_RR(ray rayo, int alt) {
 	vec3 norm, hitPoint;
 	Primitive* inter = intersect(rayo, norm, hitPoint);
 	if (inter != NULL) {
-		res.x = inter->getMat().diffuse.x;
-		res.y = inter->getMat().diffuse.y;
-		res.z = inter->getMat().diffuse.z;
+		res.x = norm.x*255;
+		res.y = norm.y * 255;
+		res.z = norm.z * 255;
 	}
 	return res;
 };
