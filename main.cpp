@@ -171,8 +171,29 @@ int main(int argc, char *argv[]) {
 		col->agregarPlano(new Plano(a, b, c, d, mat));
 		planes = planes->NextSiblingElement();
 	}
+	
+	XMLElement* cyls = settings->FirstChild()->NextSibling()->NextSibling()->NextSibling()->FirstChildElement();
+	vec3 vpos;
+	float altura;
 
-	XMLElement* tris = settings->FirstChild()->NextSibling()->NextSibling()->NextSibling()->FirstChildElement();
+	for (int i = 0; i < col->getCantCilindrosTot(); i++) {
+		mat.reflective = cyls->FloatAttribute("refl");
+		mat.refractive = cyls->FloatAttribute("refr");
+		mat.specular = cyls->FloatAttribute("specular");
+		mat.IOR = cyls->FloatAttribute("IOR");
+		mat.diffuse.x = cyls->FloatAttribute("colorR");
+		mat.diffuse.y = cyls->FloatAttribute("colorG");
+		mat.diffuse.z = cyls->FloatAttribute("colorB");
+		obPos = cyls->FirstChildElement();
+		vpos.x = obPos->FloatAttribute("posx");
+		vpos.y = obPos->FloatAttribute("posy");
+		vpos.z = obPos->FloatAttribute("posz");
+		radius = obPos->FloatAttribute("radius");
+		altura = obPos->FloatAttribute("alt");
+		col->agregarCilindro(new Cilindro(vpos, radius, altura, mat));
+		cyls = cyls->NextSiblingElement();
+	}
+	XMLElement* tris = settings->FirstChild()->NextSibling()->NextSibling()->NextSibling()->NextSibling()->FirstChildElement();
 	vec3 v1, v2, v3;
 
 	for (int i = 0; i < col->getCantTriangulosTot(); i++) {
@@ -197,8 +218,6 @@ int main(int argc, char *argv[]) {
 		tris = tris->NextSiblingElement();
 	}
 	mat.diffuse.z = 255;
-	Cilindro* cil = new Cilindro(vec3(-0.1, 0.2, -1.25), 0.06, 0.08, mat);
-	col->agregarCilindro(cil);
 	FIBITMAP* bitmap = FreeImage_Allocate(cam.resW, cam.resH, 24);
 	RGBQUAD color;
 	vec3 pixel;

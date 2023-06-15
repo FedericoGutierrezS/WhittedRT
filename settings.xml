@@ -29,6 +29,11 @@
 			<ec A="1" B="0" C="0" D="-0.5" ></ec>
 		</fifth>
 	</planes>
+	 <cyls>
+		 <first refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="255" colorB="0" colorG="120">
+			 <ec posx="0.1" posy="0.23" posz="-1.22" radius="0.04" alt="0.08"></ec>
+		 </first>
+	 </cyls>
 	 <tris>
 		 <first refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="120" colorB="120" colorG="120">
 			 <ec v1x="0.4" v1y="0.31" v1z="-1.4" v2x="-0.4" v2y="0.31" v2z="-1.4" v3x="-0.4" v3y="0.31" v3z="-1.1" ></ec>
