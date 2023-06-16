@@ -8,8 +8,8 @@ bool  Plano::intersectRay(ray rayo, vec3* norm, vec3* hitPoint, float fMax) {
 	if (f > fMax || f < EPS) return false;
 	
 	else {
-		*hitPoint = rayo.origin + (rayo.dir * f);
-		*norm = N*( 1/ norma(N));
+		*hitPoint = rayo.origin + rayo.dir * f;
+		*norm = normalize(N);
 		return true;
 	}
 }
