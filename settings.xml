@@ -6,10 +6,10 @@
 	</camera>
 	<spheres>
 		<first refl="0.0" refr="1.0" radius="0.11" spec="128.0" IOR="1.45" colorR="127" colorB="255" colorG="0">
-			<pos x="-0.2" y="1.0" z="-0.2" ></pos>
+			<pos x="-0.2" y="0.6" z="-0.02" ></pos>
 		</first>
 		<second refl="1.0" refr="0.0" radius="0.08" spec="128.0" IOR="1.0" colorR="100" colorB="0" colorG="50">
-			<pos x="0.2" y="1.0" z="-0.23" ></pos>
+			<pos x="0.2" y="0.6" z="-0.25" ></pos>
 		</second>
 	</spheres>
 	<planes>
@@ -17,13 +17,13 @@
 			<ec A="0" B="0" C="1" D="0.5" ></ec>
 		</first>
 		<second refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="255" colorB="255" colorG="255">
-			<ec A="0" B="0" C="1" D="-0.5" ></ec>
+			<ec A="0" B="0" C="-1" D="0.5" ></ec>
 		</second>
 		<third refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="220" colorB="220" colorG="220">
-			<ec A="0.0" B="1.0" C="0.0" D="-1.5" ></ec>
+			<ec A="0.0" B="-1.0" C="0.0" D="-0.50" ></ec>
 		</third>
 		<fourth refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="170" colorB="0" colorG="0">
-			<ec A="1" B="0" C="0" D="-0.5" ></ec>
+			<ec A="-1" B="0" C="0" D="0.5" ></ec>
 		</fourth>
 		<fifth refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="170" colorB="0" colorG="0">
 			<ec A="1" B="0" C="0" D="0.5" ></ec>

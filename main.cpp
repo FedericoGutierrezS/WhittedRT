@@ -106,15 +106,12 @@ vec3 sombra_RR(Primitive* obj, ray rayo, vec3 hitPoint, vec3 normal, int alt, Li
 
 	bool inShadow = false;
 	ray shadowRay;
-	if(rayo.dir*normal < 0)
-		shadowRay.origin = hitPoint + normal*EPS;
-	else shadowRay.origin = hitPoint - normal * EPS;
-	shadowRay.dir = shadowRay.origin - rayo_s.origin;
-	shadowRay.dir = shadowRay.dir*(1/norma(shadowRay.dir));
+	shadowRay.origin = hitPoint + normal*EPS;
+	shadowRay.dir = normalize(shadowRay.origin - rayo_s.origin);
 	vec3 norm, hit;
 	Primitive* a = intersect(shadowRay, norm, hit);
 	inShadow = (a != NULL);
-	if (inShadow&&(norma(hit)*norma(hit)< lightDisSq))return mult(light_inten, obj->getMat().diffuse);
+	if (inShadow&&(norma(hit)*norma(hit)< lightDisSq)) return vec3(0,0,0);
 
 	else {
 		vec3 R = shadowRay.dir * (-1) - (normal* (2 * (shadowRay.dir * normal)));
@@ -130,16 +127,31 @@ vec3 sombra_RR(Primitive* obj, ray rayo, vec3 hitPoint, vec3 normal, int alt, Li
 
 
 vec3 traza_RR(ray rayo, int alt, Light* light) {
-	vec3 res;
-	res.x = 0;
-	res.y = 0;
-	res.z = 0;
 	vec3 norm, hitPoint;
+	vec3 res;
 	Primitive* inter = intersect(rayo, norm, hitPoint);
 	if (inter != NULL) {
 		return sombra_RR(inter, rayo, hitPoint, norm, alt, light);
 	}
 	else return vec3(20, 20, 20);
+	/*if (norm.x > 0) {
+		res.x = 127 * norm.x;
+	} else {
+		res.x = 255 * abs(norm.x);
+	}
+	if (norm.y > 0) {
+		res.y = 127 * norm.y;
+	}
+	else {
+		res.y = 255 * abs(norm.y);
+	}
+	if (norm.z > 0) {
+		res.z = 127 * norm.z;
+	}
+	else {
+		res.z = 255 * abs(norm.z);
+	}
+	return res;*/ //Esto sirve para ver las normales
 };
 
 vec3 luz_RR(Light* light) {
