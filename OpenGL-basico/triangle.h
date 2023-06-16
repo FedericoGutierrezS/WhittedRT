@@ -11,8 +11,8 @@ public:
 		this->C = c;
 		this->mat = Mat;
 		vec3 edge1, edge2;
-		edge1 = this->B - this->A;
-		edge2 = this->C - this->A;
+		edge1 = this->A - this->B;
+		edge2 = this->C - this->B;
 		normal = cross(edge1, edge2);
 		normal = normal * (1 / norma(normal));
 	};

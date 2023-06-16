@@ -1,12 +1,22 @@
-﻿  cylinder.cpp
-F:\git\WhittedRT\OpenGL-basico\cylinder.cpp(8,20): warning C4305: 'inicializando': truncamiento de 'double' a 'float'
-F:\git\WhittedRT\OpenGL-basico\cylinder.cpp(9,10): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
-F:\git\WhittedRT\OpenGL-basico\cylinder.cpp(11,10): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
-F:\git\WhittedRT\OpenGL-basico\cylinder.cpp(14,43): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-F:\git\WhittedRT\OpenGL-basico\cylinder.cpp(15,43): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-  Generando código
-  2 of 346 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
+﻿  main.cpp
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\OpenGL-basico\util.h(6,17): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(209,159): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(209,120): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(209,84): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(209,46): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(214,54): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(316,53): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(316,43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(325,26): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(340,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(341,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(342,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(355,24): warning C4244: '=': conversion from 'float' to 'BYTE', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(356,26): warning C4244: '=': conversion from 'float' to 'BYTE', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(357,25): warning C4244: '=': conversion from 'float' to 'BYTE', possible loss of data
+  Generating code
+  4 of 346 functions ( 1.2%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    7 functions had inline decision re-evaluated but remain unchanged
-  Generación de código finalizada
-  OpenGL-basico.vcxproj -> F:\git\WhittedRT\Release\OpenGL-basico.exe
+    8 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  OpenGL-basico.vcxproj -> C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\Release\OpenGL-basico.exe

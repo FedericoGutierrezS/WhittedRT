@@ -98,6 +98,7 @@ vec3 sombra_RR(Primitive* obj, ray rayo, vec3 hitPoint, vec3 normal, int alt, Li
 	vec3 color(20, 20, 20);
 	ray rayo_s;
 	rayo_s.origin = light->position;
+	float lightDisSq = (light->position - hitPoint) * (light->position - hitPoint);
 	float ligthDirNorma = norma(light->position - hitPoint);
 	vec3 lightDir = (light->position - hitPoint) * (1 / ligthDirNorma);
 	rayo_s.dir = lightDir;
@@ -105,16 +106,18 @@ vec3 sombra_RR(Primitive* obj, ray rayo, vec3 hitPoint, vec3 normal, int alt, Li
 
 	bool inShadow = false;
 	ray shadowRay;
-	shadowRay.origin = hitPoint;
-	shadowRay.dir = rayo_s.origin - shadowRay.origin;
+	if(rayo.dir*normal < 0)
+		shadowRay.origin = hitPoint + normal*EPS;
+	else shadowRay.origin = hitPoint - normal * EPS;
+	shadowRay.dir = shadowRay.origin - rayo_s.origin;
 	shadowRay.dir = shadowRay.dir*(1/norma(shadowRay.dir));
 	vec3 norm, hit;
 	Primitive* a = intersect(shadowRay, norm, hit);
-	inShadow = a != NULL;
-	if (!inShadow)return cross(light_inten, obj->getMat().diffuse);
+	inShadow = (a != NULL);
+	if (inShadow&&(norma(hit)*norma(hit)< lightDisSq))return mult(light_inten, obj->getMat().diffuse);
 
 	else {
-		vec3 R = shadowRay.dir * (-1) - (normal* 2 * (shadowRay.dir * normal));
+		vec3 R = shadowRay.dir * (-1) - (normal* (2 * (shadowRay.dir * normal)));
 		float N_dot_L = max(0.0f, normal * shadowRay.dir);
 		float R_dot_V = max(0.0f, R * rayo.dir*(-1));
 		float R_dot_V_pow_n;
@@ -208,7 +211,7 @@ int main(int argc, char *argv[]) {
 	XMLElement* camera = settings->FirstChildElement();
 	cam.resW = camera->FloatAttribute("resW");
 	cam.resH = camera->FloatAttribute("resH");
-	cam.fov = camera->FloatAttribute("fov");
+	cam.fov = camera->FloatAttribute("fov")*3.1415926535/180.0;
 	camera = camera->FirstChildElement();
 	cam.look.x = camera->FloatAttribute("x");
 	cam.look.y = camera->FloatAttribute("y");
@@ -318,8 +321,8 @@ int main(int argc, char *argv[]) {
 
 	Light* light = new Light();
 	light->position.x = 0.0;
-	light->position.y = 0.40;
-	light->position.z = -1.25;
+	light->position.y = 1.0;
+	light->position.z = 0.43;
 	light->intensity.x = 1.0;
 	light->intensity.y = 1.0;
 	light->intensity.z = 1.0;
@@ -328,26 +331,31 @@ int main(int argc, char *argv[]) {
 	light->color.z = 1.0;
 
 
-	for (int i = 0; i < cam.resH; i++) {
-		for (int j = 0; j < cam.resW; j++) {
-			rayo.origin.x = cam.origin.x;
-			rayo.origin.y = cam.origin.y;
-			rayo.origin.z = cam.origin.z;
-			rayo.dir.x = -((rayo.origin.x + (2 / cam.resW) * j) - 1)*camRatio;
-			rayo.dir.y = -((rayo.origin.y + (2 / cam.resH) * i) - 1) ;
-			rayo.dir.z = -1.0 / tan(cam.fov / 2.0);
-			rayo.dir = rayo.dir*(1/norma(rayo.dir));
+	for (int j = 0; j < cam.resH; j++) {
+		for (int i = 0; i < cam.resW; i++) {
+			vec3 cam_Z = normalize(cam.origin - cam.look);
+			vec3 cam_X = normalize(cross(vec3(0.0f, 0.0f, 1.0f), cam_Z));
+			vec3 cam_Y = normalize(cross(cam_Z, cam_X));
+
+			float py = (2.0 * j - cam.resH) / cam.resH;
+			float px = (2.0 * i - cam.resW) / cam.resH;
+			float pz = -1.0 / tan(cam.fov / 2.0);
+
+			rayo.origin = cam.origin;
+			rayo.dir = normalize(cam_X * px + cam_Y * py + cam_Z * pz);
+
 
 			light->dir.x = ((light->position.x + (2 / cam.resW) * j) - 1) * camRatio;
 			light->dir.y = ((light->position.y + (2 / cam.resW) * j) - 1) * camRatio;
 			light->dir.z = ((light->position.z + (2 / cam.resW) * j) - 1) * camRatio;
 			light->dir = light->dir * (1 / norma(light->dir));
 
+
 			pixel = traza_RR(rayo, 1, light);
 			color.rgbRed = pixel.x;
 			color.rgbGreen = pixel.y;
 			color.rgbBlue = pixel.z;
-			FreeImage_SetPixelColor(bitmap, j,i , &color);
+			FreeImage_SetPixelColor(bitmap, i,j , &color);
 		}
 	}
 	FreeImage_Save(FIF_PNG, bitmap, "test.png", 0);

@@ -3,6 +3,8 @@
 #ifndef UTIL_H
 #define UTIL_H
 
+const int EPS = 0.00001;
+
 struct vec3 {
 	float x;
 	float y;
@@ -54,6 +56,10 @@ vec3 operator+(vec3 v, vec3 f);
 float operator*(vec3 v, vec3 f);
 
 vec3 operator*(vec3 v, float a);
+
+vec3 mult(vec3 v, vec3 f);
+
+vec3 normalize(vec3 a);
 
 float norma(vec3 v);
 
