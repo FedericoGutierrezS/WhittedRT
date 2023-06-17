@@ -45,6 +45,7 @@ struct material {
 	float reflective;
 	float refractive;
 	float IOR;
+	float ks;
 };
 
 vec3 operator-(vec3 v, vec3 f);

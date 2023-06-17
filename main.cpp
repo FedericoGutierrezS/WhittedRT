@@ -172,12 +172,17 @@ vec3 sombra_RR(Primitive* obj, ray rayo, vec3 hitPoint, vec3 normal, int alt, Li
 	Primitive* a = intersectS(rayoSombra, normalSombra, hitSombra);
 	vec3 L = normalize(light->position - rayoSombra.origin);
 	float fctr = normal * L;
-	float ka = 0.3;
-	float kd = 0.7;
+	float ka = 0.2;
+	float kd = 0.6;
 	if ((a != NULL && (norma(rayoSombra.origin - hitSombra + normalSombra * 0.00001) < norma(rayoSombra.origin - light->position)) && norma(light->position - hitSombra+normalSombra*0.00001) < norma(rayoSombra.origin - light->position))|| fctr<0) {
 		return obj->getMat().diffuse * ka;
 	}
-	else return obj->getMat().diffuse * ka + obj->getMat().diffuse * kd * fctr;
+	else {
+		vec3 V = normalize(rayo.origin - rayoSombra.origin);
+		vec3 H = normalize(L + V);
+		float hf = pow(H * normal, obj->getMat().specular);
+		return obj->getMat().diffuse * ka + obj->getMat().diffuse * kd * fctr + vec3(1,1,1)*hf*obj->getMat().ks;
+	}
 };
 
 
@@ -300,8 +305,9 @@ int main(int argc, char *argv[]) {
 		mat.reflective = spheres->FloatAttribute("refl");
 		mat.refractive = spheres->FloatAttribute("refr");
 		radius = spheres->FloatAttribute("radius");
-		mat.specular = spheres->FloatAttribute("specular");
+		mat.specular = spheres->FloatAttribute("spec");
 		mat.IOR = spheres->FloatAttribute("IOR");
+		mat.ks = spheres->FloatAttribute("ks");
 		mat.diffuse.x = spheres->FloatAttribute("colorR");
 		mat.diffuse.y = spheres->FloatAttribute("colorG");
 		mat.diffuse.z = spheres->FloatAttribute("colorB");
@@ -320,8 +326,9 @@ int main(int argc, char *argv[]) {
 	for(int i = 0; i < col->getCantPlanosTot(); i++) {
 		mat.reflective = planes->FloatAttribute("refl");
 		mat.refractive = planes->FloatAttribute("refr");
-		mat.specular = planes->FloatAttribute("specular");
+		mat.specular = planes->FloatAttribute("spec");
 		mat.IOR = planes->FloatAttribute("IOR");
+		mat.ks = planes->FloatAttribute("ks");
 		mat.diffuse.x = planes->FloatAttribute("colorR");
 		mat.diffuse.y = planes->FloatAttribute("colorG");
 		mat.diffuse.z = planes->FloatAttribute("colorB");
@@ -341,8 +348,9 @@ int main(int argc, char *argv[]) {
 	for (int i = 0; i < col->getCantCilindrosTot(); i++) {
 		mat.reflective = cyls->FloatAttribute("refl");
 		mat.refractive = cyls->FloatAttribute("refr");
-		mat.specular = cyls->FloatAttribute("specular");
+		mat.specular = cyls->FloatAttribute("spec");
 		mat.IOR = cyls->FloatAttribute("IOR");
+		mat.ks = cyls->FloatAttribute("ks");
 		mat.diffuse.x = cyls->FloatAttribute("colorR");
 		mat.diffuse.y = cyls->FloatAttribute("colorG");
 		mat.diffuse.z = cyls->FloatAttribute("colorB");
@@ -361,8 +369,9 @@ int main(int argc, char *argv[]) {
 	for (int i = 0; i < col->getCantTriangulosTot(); i++) {
 		mat.reflective = tris->FloatAttribute("refl");
 		mat.refractive = tris->FloatAttribute("refr");
-		mat.specular = tris->FloatAttribute("specular");
+		mat.specular = tris->FloatAttribute("spec");
 		mat.IOR = tris->FloatAttribute("IOR");
+		mat.ks = tris->FloatAttribute("ks");
 		mat.diffuse.x = tris->FloatAttribute("colorR");
 		mat.diffuse.y = tris->FloatAttribute("colorG");
 		mat.diffuse.z = tris->FloatAttribute("colorB");
@@ -389,10 +398,10 @@ int main(int argc, char *argv[]) {
 	Light* light = new Light();
 	light->position.x = 0.0;
 	light->position.y = 1.0;
-	light->position.z = 0.40;
-	light->intensity.x = 0.9;
-	light->intensity.y = 0.9;
-	light->intensity.z = 0.9;
+	light->position.z = 0.10;
+	light->intensity.x = 1.5;
+	light->intensity.y = 1.5;
+	light->intensity.z = 1.5;
 	light->color.x = 1.0;
 	light->color.y = 1.0;
 	light->color.z = 1.0;
