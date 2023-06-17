@@ -3,8 +3,6 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-const int EPS = 0.00001;
-
 struct vec3 {
 	float x;
 	float y;

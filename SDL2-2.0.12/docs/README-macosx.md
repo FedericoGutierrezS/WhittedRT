@@ -158,7 +158,7 @@ Using the Simple DirectMedia Layer with Xcode
 
 These instructions are for using Apple's Xcode IDE to build SDL applications.
 
-- First steps
+- First st0.00001
 
 The first thing to do is to unpack the Xcode.tar.gz archive in the
 top level SDL directory (where the Xcode.tar.gz archive resides).

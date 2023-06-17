@@ -37,7 +37,7 @@ vec3 operator*(vec3 v, float a) {
 }
 
 float norma(vec3 v) {
-	return sqrt(pow(v.x, 2) + pow(v.y, 2) + pow(v.z, 2));
+	return sqrt(v.x*v.x + v.y*v.y + v.z*v.z);
 };
 
 vec3 cross(vec3 a, vec3 b) {

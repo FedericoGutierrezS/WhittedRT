@@ -35,6 +35,8 @@ Primitive* intersect(ray rayo,vec3 &normalO,vec3 &hitPointO) {
 	vec3 norm_min(100, 100, 100);
 	Primitive* hit = NULL;
 	bool intersect = false;
+	float tnear;
+	float tnearK;
 	bool j = false;
 	ColObjetos* col = NULL;
 	col = col->getInstance();
@@ -85,38 +87,97 @@ Primitive* intersect(ray rayo,vec3 &normalO,vec3 &hitPointO) {
 		hitPointO = hitPoint_min;
 		return hit;
 	}
-	else return NULL;
+	else {
+		normalO = vec3(0, 0, 0);
+		hitPointO = vec3(100, 100, 100);
+		return NULL;
+	}
 }
+
+Primitive* intersectS(ray rayo, vec3& normalO, vec3& hitPointO) {
+	vec3* norm = new vec3(100, 100, 100);
+	vec3* hitPoint = new vec3(100, 100, 100);
+	vec3 hitPoint_min(100, 100, 100);
+	vec3 norm_min(100, 100, 100);
+	Primitive* hit = NULL;
+	bool intersect = false;
+	float tnear;
+	float tnearK;
+	bool j = false;
+	ColObjetos* col = NULL;
+	col = col->getInstance();
+	Esfera** e = col->getColEsferas();
+	for (int i = 0; i < col->getCantEsferas(); i++) {
+		j = e[i]->intersectRayS(rayo, norm, hitPoint);
+		if (j && norma(*hitPoint) < norma(hitPoint_min)) {
+			hitPoint_min = *hitPoint;
+			norm_min = *norm;
+			intersect = true;
+			hit = e[i];
+		}
+	}
+	Plano** p = col->getColPlanos();
+	for (int i = 0; i < col->getCantPlanos(); i++) {
+		j = p[i]->intersectRay(rayo, norm, hitPoint, 7);
+		if (j && norma(*hitPoint) < norma(hitPoint_min)) {
+			hitPoint_min = *hitPoint;
+			norm_min = *norm;
+			intersect = true;
+			hit = p[i];
+		}
+	}
+
+	Cilindro** c = col->getColCilindros();
+	for (int i = 0; i < col->getCantCilindros(); i++) {
+		j = c[i]->intersectRay(rayo, norm, hitPoint);
+		if (j && norma(*hitPoint) < norma(hitPoint_min)) {
+			hitPoint_min = *hitPoint;
+			norm_min = *norm;
+			intersect = true;
+			hit = c[i];
+		}
+	}
+
+	Triangulo** t = col->getColTriangulos();
+	for (int i = 0; i < col->getCantTriangulos(); i++) {
+		j = t[i]->intersectRay(rayo, norm, hitPoint);
+		if (j && norma(*hitPoint) < norma(hitPoint_min)) {
+			hitPoint_min = *hitPoint;
+			norm_min = *norm;
+			intersect = true;
+			hit = t[i];
+		}
+	}
+	if (intersect) {
+		normalO = norm_min;
+		hitPointO = hitPoint_min;
+		return hit;
+	}
+	else {
+		normalO = vec3(0, 0, 0);
+		hitPointO = vec3(100, 100, 100);
+		return NULL;
+	}
+}
+
 
 //vec3 traza_RR(ray, int);
 
 vec3 sombra_RR(Primitive* obj, ray rayo, vec3 hitPoint, vec3 normal, int alt, Light* light) {
-	vec3 color(20, 20, 20);
-	ray rayo_s;
-	rayo_s.origin = light->position;
-	float ligthDirNorma = norma(light->position - hitPoint);
-	vec3 lightDir = (light->position - hitPoint) * (1 / ligthDirNorma);
-	rayo_s.dir = lightDir;
-	vec3 light_inten = light->intensity;
-	bool inShadow = false;
-	ray shadowRay;
-	shadowRay.origin = hitPoint + normal*EPS;
-	shadowRay.dir = normalize(rayo_s.origin - shadowRay.origin);
-	vec3 norm, hit(4,4,4);
-	Primitive* a = intersect(shadowRay, norm, hit);
-	inShadow = (a != NULL);
-	if (inShadow&&(norma(hit) < norma(hitPoint - rayo_s.origin))) return vec3(0,0,0);
-
-	else {
-		vec3 R = shadowRay.dir * (-1) - (normal* (2 * (shadowRay.dir * normal)));
-		float N_dot_L = max(0.0f, normal * shadowRay.dir);
-		float R_dot_V = max(0.0f, R * rayo.dir*(-1));
-		float R_dot_V_pow_n;
-		if (R_dot_V == 0) R_dot_V_pow_n = 0;
-		else R_dot_V_pow_n = pow(R_dot_V, obj->getMat().specular);
-
-		return mult(light_inten, obj->getMat().diffuse) + mult(rayo_s.origin, (obj->getMat().diffuse * 1.1f) * N_dot_L + (obj->getMat().diffuse * 1.2f) * R_dot_V_pow_n);
+	ray rayoSombra;
+	if(rayo.dir*normal <= 0 + 0.00001) rayoSombra.origin = hitPoint + normal*0.00001;
+	else rayoSombra.origin = hitPoint - normal * 0.00001;
+	rayoSombra.dir = normalize(light->position - rayoSombra.origin);
+	vec3 hitSombra, normalSombra;
+	Primitive* a = intersectS(rayoSombra, normalSombra, hitSombra);
+	vec3 L = normalize(light->position - rayoSombra.origin);
+	float fctr = normal * L;
+	float ka = 0.3;
+	float kd = 0.7;
+	if ((a != NULL && (norma(rayoSombra.origin - hitSombra + normalSombra * 0.00001) < norma(rayoSombra.origin - light->position)) && norma(light->position - hitSombra+normalSombra*0.00001) < norma(rayoSombra.origin - light->position))|| fctr<0) {
+		return obj->getMat().diffuse * ka;
 	}
+	else return obj->getMat().diffuse * ka + obj->getMat().diffuse * kd * fctr;
 };
 
 
@@ -125,7 +186,7 @@ vec3 traza_RR(ray rayo, int alt, Light* light) {
 	vec3 res;
 	Primitive* inter = intersect(rayo, norm, hitPoint);
 	if (inter != NULL) {
-		return sombra_RR(inter, rayo, hitPoint, norm, alt, light);
+		return sombra_RR(inter,rayo,hitPoint,norm,alt,light);
 	}
 	else return vec3(20, 20, 20);
 	/*if (norm.x > 0) {
@@ -327,8 +388,8 @@ int main(int argc, char *argv[]) {
 
 	Light* light = new Light();
 	light->position.x = 0.0;
-	light->position.y = 1.1;
-	light->position.z = 0.45;
+	light->position.y = 1.0;
+	light->position.z = 0.40;
 	light->intensity.x = 0.9;
 	light->intensity.y = 0.9;
 	light->intensity.z = 0.9;

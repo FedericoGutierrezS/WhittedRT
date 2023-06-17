@@ -1,1 +1,35 @@
-﻿  OpenGL-basico.vcxproj -> C:\Users\fgutierrez\Source\Repos\FedericoGutierrezS\WhittedRT\Release\OpenGL-basico.exe
+﻿  main.cpp
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(38,8): warning C4101: 'tnear': unreferenced local variable
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(39,8): warning C4101: 'tnearK': unreferenced local variable
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(104,8): warning C4101: 'tnear': unreferenced local variable
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(105,8): warning C4101: 'tnearK': unreferenced local variable
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(168,82): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(169,54): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(175,16): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(176,16): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(177): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(276,159): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(276,120): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(276,84): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(276,46): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(281,54): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(383,53): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(383,43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(392,26): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(393,26): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(394,26): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(395,26): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(407,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(408,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(409,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(422,24): warning C4244: '=': conversion from 'float' to 'BYTE', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(423,26): warning C4244: '=': conversion from 'float' to 'BYTE', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(424,25): warning C4244: '=': conversion from 'float' to 'BYTE', possible loss of data
+  ColeccionObjetos.cpp
+  plane.cpp
+  Generating code
+  4 of 346 functions ( 1.2%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    11 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  OpenGL-basico.vcxproj -> C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\Release\OpenGL-basico.exe

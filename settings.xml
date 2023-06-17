@@ -19,56 +19,56 @@
 		<second refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="255" colorB="255" colorG="255">
 			<ec A="0" B="0" C="-1" D="0.5" ></ec>
 		</second>
-		<third refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="220" colorB="220" colorG="220">
+		<third refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="255" colorB="255" colorG="255">
 			<ec A="0.0" B="-1.0" C="0.0" D="1.50" ></ec>
 		</third>
-		<fourth refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="170" colorB="0" colorG="0">
+		<fourth refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="200" colorB="0" colorG="0">
 			<ec A="-1" B="0" C="0" D="0.5" ></ec>
 		</fourth>
-		<fifth refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="170" colorB="0" colorG="0">
+		<fifth refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="0" colorB="0" colorG="200">
 			<ec A="1" B="0" C="0" D="0.5" ></ec>
 		</fifth>
 	</planes>
 	 <cyls>
-		 <first refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="255" colorB="0" colorG="120">
+		 <first refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="220" colorB="0" colorG="20">
 			 <ec posx="-0.13" posy="0.95" posz="-0.31" radius="0.03" alt="0.1"></ec>
 		 </first>
 	 </cyls>
 	 <tris>
-		 <first refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="120" colorB="120" colorG="120">
+		 <first refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="255" colorB="255" colorG="255">
 			 <ec v1x="-0.4" v1y="0.8" v1z="-0.31" v2x="-0.4" v2y="1.3" v2z="-0.31" v3x="0.4" v3y="0.8" v3z="-0.31" ></ec>
 		 </first>
-		 <second refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="120" colorB="120" colorG="120">
+		 <second refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="255" colorB="255" colorG="255">
 			 <ec v1x="0.4" v1y="1.3" v1z="-0.31" v2x="0.4" v2y="0.8" v2z="-0.31" v3x="-0.4" v3y="1.3" v3z="-0.31" ></ec>
 		 </second>
-		 <third refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="120" colorB="120" colorG="120">
+		 <third refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="255" colorB="255" colorG="255">
 			 <ec v1x="-0.4" v1y="1.3" v1z="-0.31" v2x="-0.4" v2y="1.3" v2z="-0.5" v3x="0.4" v3y="1.3" v3z="-0.31" ></ec>
 		 </third>
-		 <fourth refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="120" colorB="120" colorG="120">
+		 <fourth refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="255" colorB="255" colorG="255">
 			 <ec v1x="0.4" v1y="1.3" v1z="-0.5" v2x="0.4" v2y="1.3" v2z="-0.31" v3x="-0.4" v3y="1.3" v3z="-0.5" ></ec>
 		 </fourth>
-		 <fifth refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="120" colorB="120" colorG="120">
+		 <fifth refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="255" colorB="255" colorG="255">
 			 <ec v1x="0.4" v1y="0.8" v1z="-0.31" v2x="0.4" v2y="0.8" v2z="-0.5" v3x="-0.4" v3y="0.8" v3z="-0.31" ></ec>
 		 </fifth>
-		 <sixth refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="120" colorB="120" colorG="120">
+		 <sixth refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="255" colorB="255" colorG="255">
 			 <ec v1x="-0.4" v1y="0.8" v1z="-0.5" v2x="-0.4" v2y="0.8" v2z="-0.31" v3x="0.4" v3y="0.8" v3z="-0.5" ></ec>
 		 </sixth>
-		 <seventh refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="120" colorB="120" colorG="120">
+		 <seventh refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="255" colorB="255" colorG="255">
 			 <ec v1x="-0.4" v1y="0.8" v1z="-0.31" v2x="-0.4" v2y="0.8" v2z="-0.5" v3x="-0.4" v3y="1.3" v3z="-0.31" ></ec>
 		 </seventh>
-		 <eighth refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="120" colorB="120" colorG="120">
+		 <eighth refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="255" colorB="255" colorG="255">
 			 <ec v1x="-0.4" v1y="1.3" v1z="-0.31" v2x="-0.4" v2y="0.8" v2z="-0.5" v3x="-0.4" v3y="1.3" v3z="-0.5" ></ec>
 		 </eighth>
-		 <ninth refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="120" colorB="120" colorG="120">
+		 <ninth refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="255" colorB="255" colorG="255">
 			 <ec v1x="0.4" v1y="1.3" v1z="-0.31" v2x="0.4" v2y="1.3" v2z="-0.5" v3x="0.4" v3y="0.8" v3z="-0.31" ></ec>
 		 </ninth>
-		 <tenth refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="120" colorB="120" colorG="120">
+		 <tenth refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="255" colorB="255" colorG="255">
 			 <ec v1x="0.4" v1y="0.8" v1z="-0.31" v2x="0.4" v2y="1.3" v2z="-0.5" v3x="0.4" v3y="0.8" v3z="-0.5" ></ec>
 		 </tenth>
-		 <eleventh refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="120" colorB="120" colorG="120">
+		 <eleventh refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="255" colorB="255" colorG="255">
 			 <ec v1x="-0.4" v1y="1.3" v1z="-0.5" v2x="-0.4" v2y="1.3" v2z="-0.31" v3x="-0.4" v3y="0.8" v3z="-0.5" ></ec>
 		 </eleventh>
-		 <twelvfth refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="120" colorB="120" colorG="120">
+		 <twelvfth refl="0.1" refr="0.5" spec="64.0" IOR="1.0" colorR="255" colorB="255" colorG="255">
 			 <ec v1x="-0.4" v1y="0.8" v1z="-0.5" v2x="-0.4" v2y="1.3" v2z="-0.31" v3x="-0.4" v3y="0.8" v3z="-0.5" ></ec>
 		 </twelvfth>
 	 </tris>

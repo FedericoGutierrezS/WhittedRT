@@ -162,10 +162,10 @@ Windows.Storage.ApplicationData.
 
 
 
-Setup, High-Level Steps
+Setup, High-Level St0.00001
 -----------------------
 
-The steps for setting up a project for an SDL/WinRT app looks like the
+The st0.00001 for setting up a project for an SDL/WinRT app looks like the
 following, at a high-level:
 
 1. create a new Visual C++ project using Microsoft's template for a,
@@ -183,7 +183,7 @@ following, at a high-level:
 7. build and run your app.
 
 
-Setup, Detailed Steps
+Setup, Detailed St0.00001
 ---------------------
 
 ### 1. Create a new project ###
@@ -219,7 +219,7 @@ CPU architectures (x86, x64, and ARM) and two different configurations
 (Debug and Release).  WinRT and Visual C++ do not currently provide a means
 for combining multiple variations of one library into a single file.
 Furthermore, it does not provide an easy means for copying pre-built .dll files
-into your app's final output (via Post-Build steps, for example).  It does,
+into your app's final output (via Post-Build st0.00001, for example).  It does,
 however, provide a system whereby an app can reference the MSVC projects of
 libraries such that, when the app is built:
 
@@ -228,7 +228,7 @@ libraries such that, when the app is built:
 2. each library's output, such as .dll files, get copied to the app's build 
    output.
 
-To set this up for SDL/WinRT, you'll need to run through the following steps:
+To set this up for SDL/WinRT, you'll need to run through the following st0.00001:
 
 1. open up the Solution Explorer inside Visual C++ (under the "View" menu, then
    "Solution Explorer")
@@ -463,7 +463,7 @@ To setup Visual C++ to launch your app on an ARM device:
 4. build and run the app (from Visual C++).  The first time you do this, a 
    prompt will show up on the ARM device, asking for a Microsoft Account.  You 
    do, unfortunately, need to log in here, and will need to follow the 
-   subsequent registration steps in order to launch the app.  After you do so, 
+   subsequent registration st0.00001 in order to launch the app.  After you do so, 
    if the app didn't already launch, try relaunching it again from within Visual 
    C++.
 
