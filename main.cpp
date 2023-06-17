@@ -161,8 +161,6 @@ Primitive* intersectS(ray rayo, vec3& normalO, vec3& hitPointO) {
 }
 
 
-//vec3 traza_RR(ray, int);
-
 vec3 sombra_RR(Primitive* obj, ray rayo, vec3 hitPoint, vec3 normal, int alt, Light* light) {
 	ray rayoSombra;
 	if(rayo.dir*normal <= 0 + 0.00001) rayoSombra.origin = hitPoint + normal*0.00001;
@@ -213,61 +211,6 @@ vec3 traza_RR(ray rayo, int alt, Light* light) {
 	}*/
 	return res; //Esto sirve para ver las normales
 };
-
-vec3 luz_RR(Light* light) {
-	vec3 res;
-	res.x = 0;
-	res.y = 0;
-	res.z = 0;
-	vec3 norm, hitPoint;
-	ray auxRay;
-	auxRay.origin = light->position;
-	auxRay.dir = light->dir;
-	Primitive* inter = intersect(auxRay, norm, hitPoint);
-	if (inter != NULL) {
-		float ligthDirNorma = norma(light->position - hitPoint);
-		vec3 lightDir = (light->position - hitPoint) * (1 / ligthDirNorma);
-
-		float diffuseFactor = light->dir * norm;
-
-		/*if (diffuseFactor > 0.0) {
-			res.x = inter->getMat().diffuse.x * light->intensity * diffuseFactor * light->color.x;
-			res.y = inter->getMat().diffuse.y * light->intensity * diffuseFactor * light->color.y;
-			res.z = inter->getMat().diffuse.z * light->intensity * diffuseFactor * light->color.z;
-		}*/
-	}
-	return res;
-
-}
-
-vec3 luz_RR2(Primitive* obj, ray rayo, vec3 hitPoint, vec3 normal, int alt, Light* light) {
-		vec3 res;
-		res.x = obj->getMat().diffuse.x;
-		res.y = obj->getMat().diffuse.y;
-		res.z = obj->getMat().diffuse.z;
-
-
-		vec3 normLight, hitPointLight;
-		ray lightRay;
-		lightRay.dir = light->dir;
-		lightRay.origin = light->position;
-
-		Primitive* inter = intersect(lightRay, normLight, hitPointLight);
-		if (inter != NULL) {
-			float ligthDirNorma = norma(light->position - hitPointLight);
-			vec3 lightDir = (light->position - hitPointLight) * (1 / ligthDirNorma);
-
-			float diffuseFactor = lightDir * normal;
-
-			//if (diffuseFactor > 0.0) {
-			//	res.x = inter->getMat().diffuse.x * light->intensity * diffuseFactor * light->color.x;
-			//	res.y = inter->getMat().diffuse.y * light->intensity * diffuseFactor * light->color.y;
-			//	res.z = inter->getMat().diffuse.z * light->intensity * diffuseFactor * light->color.z;
-			//}
-		}
-	return res;
-}
-
 
 int main(int argc, char *argv[]) {
 	FreeImage_Initialise();
@@ -388,6 +331,8 @@ int main(int argc, char *argv[]) {
 		col->agregarTriangulo(new Triangulo(v1,v2,v3, mat));
 		tris = tris->NextSiblingElement();
 	}
+
+
 	mat.diffuse.z = 255;
 	FIBITMAP* bitmap = FreeImage_Allocate(cam.resW, cam.resH, 24);
 	RGBQUAD color;
@@ -419,13 +364,6 @@ int main(int argc, char *argv[]) {
 
 			rayo.origin = cam.origin;
 			rayo.dir = normalize(cam_X * px + cam_Y * py + cam_Z * pz);
-
-
-			light->dir.x = ((light->position.x + (2 / cam.resW) * j) - 1) * camRatio;
-			light->dir.y = ((light->position.y + (2 / cam.resW) * j) - 1) * camRatio;
-			light->dir.z = ((light->position.z + (2 / cam.resW) * j) - 1) * camRatio;
-			light->dir = light->dir * (1 / norma(light->dir));
-
 
 			pixel = traza_RR(rayo, 1, light);
 			color.rgbRed = pixel.x;
