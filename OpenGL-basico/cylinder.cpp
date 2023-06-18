@@ -17,12 +17,11 @@ bool  Cilindro::intersectRay(ray rayo, vec3* norm, vec3* hitPoint) {
 	float t;
 	if (t1 > t2)
 		if (t2 > 0) t = t2;
-		else if (t1 < 0) t = t1;
 		else t = t1;
-	else
+	if (t2 > t1)
 		if (t1 > 0) t = t1;
-		else if (t2 < 0) t = t2;
 		else t = t2;
+
 
 	float z1 = av.z + t1 * rayo.dir.z;
 	float z2 = av.z + t2 * rayo.dir.z;

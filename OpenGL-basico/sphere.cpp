@@ -9,19 +9,17 @@ bool  Esfera::intersectRay(ray rayo, vec3* norm, vec3* hitPoint) {
 	if (delta >= 0) {
 		float d1 = ( - b + sqrt(delta))/2*a;
 		float d2 = ( - b - sqrt(delta))/2*a;
-		float d;
+		float d = 0;
 		if (d1 > d2)
 			if (d2 > 0) d = d2;
-			else if (d1 < 0) d = d1;
 			else d = d1;
-		else
+		if (d2 > d1)
 			if (d1 > 0) d = d1;
-			else if (d2 < 0) d = d2;
 			else d = d2;
 
 		*hitPoint = rayo.origin + rayo.dir * d;
-		*norm = (position - *hitPoint)*(-1);
-		*norm = *norm * (1 / norma(*norm));
+		*norm = (*hitPoint - position) * (1 / radius);
+		if (norma(*hitPoint - position ) + 0.00001 < radius) *norm = *norm * -1;
 		return true;
 	}
 	else return false;

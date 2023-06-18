@@ -25,7 +25,7 @@ vec3 mult(vec3 v, vec3 f) {
 }
 
 vec3 reflect(vec3 v, vec3 n) {
-	return n*(v * n)*2 - v;
+	return v - n*(v * n)*2;
 }
 
 float operator*(vec3 v, vec3 f) {

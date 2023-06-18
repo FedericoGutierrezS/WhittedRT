@@ -10,6 +10,9 @@
 #include "OpenGL-basico/cylinder.h"
 #include "OpenGL-basico/ColeccionObjetos.h"
 #include <algorithm>
+#include <cstdint>
+#include <iomanip>
+#include <iostream>
 
 using namespace std;
 using namespace tinyxml2;
@@ -21,6 +24,11 @@ struct camera {
 	float resH;
 	float fov;
 };
+
+float clamp(const float& lo, const float& hi, const float& v)
+{
+	return std::max(lo, std::min(hi, v));
+}
 
 
 float remap(float n, float lowerO, float upperO, float lowerN, float upperN) {
@@ -85,7 +93,7 @@ Primitive* intersect(ray rayo,vec3 &normalO,vec3 &hitPointO) {
 		return hit;
 	}
 	else {
-		normalO = vec3(0, 0, 0);
+		normalO = vec3(100, 100, 100);
 		hitPointO = vec3(100, 100, 100);
 		return NULL;
 	}
@@ -96,7 +104,7 @@ vec3 sombra_RR(Primitive* obj, ray& rayo, vec3& hitPoint, vec3& normal, int alt)
 	ray rayoSombra;
 	ColObjetos* col = NULL;
 	col = col->getInstance();
-	vec3 color;
+	vec3 color = obj->getMat().diffuse* obj->getMat().ka;
 	if (rayo.dir * normal <= 0 + 0.00001) rayoSombra.origin = hitPoint + normal * 0.00001;
 	else rayoSombra.origin = hitPoint - normal * 0.00001;
 	Light** l = col->getColLuces();
@@ -110,7 +118,7 @@ vec3 sombra_RR(Primitive* obj, ray& rayo, vec3& hitPoint, vec3& normal, int alt)
 		L = normalize(l[i]->position - hitPoint);
 		float fctr = normal * L;
 		if ((a != NULL && norma(l[i]->position - (hitSombra - normalSombra * 0.00001)) < norma((hitPoint + normal * 0.00001) - l[i]->position)) || fctr < 0) {
-			color = obj->getMat().diffuse * obj->getMat().ka;
+			color = color - (obj->getMat().diffuse * (obj->getMat().ka*0.1)*(1 - a->getMat().kt));
 			if (color.x < 0) color.x = 0;
 			if (color.y < 0) color.y = 0;
 			if (color.z < 0) color.z = 0;
@@ -125,16 +133,51 @@ vec3 sombra_RR(Primitive* obj, ray& rayo, vec3& hitPoint, vec3& normal, int alt)
 			if (color.z > 255) color.z = 255;
 		}
 	}
-	if (alt < 6) {
+	/*if (hitPoint.x < 0.1495 && hitPoint.x > 0.1491)
+		if (hitPoint.y < 1.0 && hitPoint.y > 0.935)
+			if (hitPoint.z < -0.2305 && hitPoint.z > -0.231) {
+				cout << hitPoint.x << " " << hitPoint.y << " " << hitPoint.z << "\n";
+				cout << rayo.dir.x << " " << rayo.dir.y << " " << rayo.dir.z << "\n";
+				cout << rayo.origin.x << " " << rayo.origin.y << " " << rayo.origin.z << "\n";
+				cout << normal.x << " " << normal.y << " " << normal.z << "\n";
+			}*/
+	if (alt < 5) {
 		if (obj->getMat().ks > 0) {
 			ray rayo_r;
-			vec3 reflectionDirection = reflect(rayo.dir,normalize(obj->getPos() - hitPoint));
-			vec3 reflectionRayOrig = ((reflectionDirection*normal) < 0) ?
-				hitPoint + normal * 0.00001 :
-				hitPoint - normal * 0.00001;
+			vec3 reflectionDirection;
+			vec3 reflectionRayOrig;
+			if (rayo.dir * normal <= 0 + 0.00001) reflectionRayOrig = hitPoint + normal * 0.00001;
+			else reflectionRayOrig = hitPoint - normal * 0.00001;
+			reflectionDirection = normalize(reflect(rayo.dir, normal * 100));
 			rayo_r.dir = reflectionDirection;
 			rayo_r.origin = reflectionRayOrig;
 			color = color + traza_RR(rayo_r, alt + 1)* obj->getMat().ks;
+			if (color.x > 255) color.x = 255;
+			if (color.y > 255) color.y = 255;
+			if (color.z > 255) color.z = 255;
+		}
+		if (obj->getMat().kt > 0) {
+			ray rayo_re;
+			vec3 refractionDirection;
+			vec3 refractionRayOrig;
+			float ci = clamp(-1, 1, (rayo.dir * (-1)) * normal);
+			float etai = 1, etat = obj->getMat().IOR;
+			vec3 n;
+			if (ci < 0) ci = -ci;
+			else {
+				swap(etai, etat);
+				n = normal*-1;
+			}
+			float nit = etai / etat;
+			float si = sin(acos(ci));
+			float k = 1 - nit * nit * (1 - (ci * ci));
+			refractionDirection = normalize(rayo.dir*nit + (n*(nit*ci - sqrt(k))));
+			refractionRayOrig = ((refractionDirection * normal) < 0) ?
+				refractionRayOrig = hitPoint - normal * 0.0001 :
+				refractionRayOrig = hitPoint + normal * 0.0001;
+			rayo_re.dir = refractionDirection;
+			rayo_re.origin = refractionRayOrig;
+			if(acos(ci) < asin(1/nit) && k >= 0-0.00001) color = color + traza_RR(rayo_re, alt + 1) * obj->getMat().kt;
 			if (color.x > 255) color.x = 255;
 			if (color.y > 255) color.y = 255;
 			if (color.z > 255) color.z = 255;
