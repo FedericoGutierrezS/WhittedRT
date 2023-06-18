@@ -5,7 +5,7 @@
 		<pos x="0.0" y="0.0" z="0.0" ></pos>
 	</camera>
 	<spheres>
-		<first radius="0.15" spec="20.0" IOR="1.5" ks="0.2" ka="0.0" kd="0.01" kt="0.79" colorR="255" colorB="230" colorG="230">
+		<first radius="0.15" spec="20.0" IOR="1.5" ks="0.0" ka="0.0" kd="0.01" kt="0.79" colorR="255" colorB="230" colorG="230">
 			<pos x="-0.14" y="1.03" z="-0.16" ></pos>
 		</first>
 		<second radius="0.1" spec="128" IOR="1.0" ks="0.9" ka="0.0" kd="0.1" kt="0.0" colorR="50" colorB="50" colorG="50">

@@ -148,7 +148,7 @@ vec3 sombra_RR(Primitive* obj, ray& rayo, vec3& hitPoint, vec3& normal, int alt)
 			vec3 reflectionRayOrig;
 			if (rayo.dir * normal <= 0 + 0.00001) reflectionRayOrig = hitPoint + normal * 0.00001;
 			else reflectionRayOrig = hitPoint - normal * 0.00001;
-			reflectionDirection = normalize(reflect(rayo.dir, normal * 100));
+			reflectionDirection = normalize(reflect(rayo.dir, normal));
 			rayo_r.dir = reflectionDirection;
 			rayo_r.origin = reflectionRayOrig;
 			color = color + traza_RR(rayo_r, alt + 1)* obj->getMat().ks;
