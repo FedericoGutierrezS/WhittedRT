@@ -1,12 +1,12 @@
 #include "triangle.h"
 #include <iostream>
 
-bool  Triangulo::intersectRay(ray rayo, vec3* norm, vec3* hitPoint) {
+bool  Triangulo::intersectRay(ray &rayo, vec3* norm, vec3* hitPoint) {
 	vec3 e1 = this->B - this->A;
 	vec3 e2 = this->C - this->A;
 	vec3 q = cross(rayo.dir, e2);
 	float a = q * e1;
-	if (a > -0.001 && a < 0.001) return false;
+	if (a > -0.0001 && a < 0.001) return false;
 	float f = 1 / a;
 	vec3 s = rayo.origin - this->A;
 	float u = (s * q) * f;

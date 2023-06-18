@@ -16,6 +16,6 @@ public:
 		normal = cross(edge1, edge2);
 		normal = normal * (1 / norma(normal));
 	};
-	bool intersectRay(ray rayo, vec3* norm, vec3* hitPoint);
+	bool intersectRay(ray &rayo, vec3* norm, vec3* hitPoint);
 
 };

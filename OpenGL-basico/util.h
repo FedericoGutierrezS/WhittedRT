@@ -42,11 +42,19 @@ struct ray {
 struct material {
 	vec3 diffuse;
 	float specular;
-	float reflective;
-	float refractive;
 	float IOR;
 	float ks;
+	float kd;
+	float ka;
+	float kt;
 };
+
+struct Light {
+	vec3 position;
+	vec3 intensity;
+};
+
+vec3 reflect(vec3 v, vec3 n);
 
 vec3 operator-(vec3 v, vec3 f);
 

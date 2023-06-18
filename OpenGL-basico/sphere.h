@@ -11,6 +11,5 @@ public:
 		this->mat = mat;
 	};
 	bool intersectRay(ray rayo, vec3 *norm, vec3 *hitPoint);
-	bool intersectRayS(ray rayo, vec3* norm, vec3* hitPoint);
 
 };

@@ -24,6 +24,10 @@ vec3 mult(vec3 v, vec3 f) {
 	return res;
 }
 
+vec3 reflect(vec3 v, vec3 n) {
+	return n*(v * n)*2 - v;
+}
+
 float operator*(vec3 v, vec3 f) {
 	return v.x * f.x + v.y * f.y + v.z * f.z;
 }
@@ -41,7 +45,7 @@ float norma(vec3 v) {
 };
 
 vec3 cross(vec3 a, vec3 b) {
-	return vec3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
+	return vec3(a.y * b.z - a.z * b.y, -1*(a.x * b.z - a.z * b.x), a.x * b.y - a.y * b.x);
 }
 
 vec3 normalize(vec3 a) {

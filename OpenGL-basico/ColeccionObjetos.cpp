@@ -8,6 +8,7 @@ ColObjetos::ColObjetos() {
 	esferas = NULL;
 	planos = NULL;
 	triangulos = NULL;
+	luces = NULL;
 }
 
 ColObjetos* ColObjetos::getInstance() {
@@ -18,19 +19,22 @@ ColObjetos* ColObjetos::getInstance() {
 	else return instancia;
 }
 
-void ColObjetos::inicializarCol(int cantEsfera, int cantPlano, int cantCilindro, int cantTriangulo) {
+void ColObjetos::inicializarCol(int cantEsfera, int cantPlano, int cantCilindro, int cantTriangulo, int cantLuz) {
 	this->esferas = new Esfera * [cantEsfera];
 	this->planos = new Plano * [cantPlano];
 	this->cilindros = new Cilindro * [cantCilindro];
 	this->triangulos = new Triangulo * [cantTriangulo];
+	this->luces = new Light * [cantLuz];
 	cantEsferas = 0;
 	cantPlanos = 0;
 	cantCilindros = 0;
 	cantTriangulos = 0;
+	cantLuces = 0;
 	cantEsferasTot = cantEsfera;
 	cantPlanosTot = cantPlano;
 	cantCilindrosTot = cantCilindro;
 	cantTriangulosTot = cantTriangulo;
+	cantLucesTot = cantLuz;
 }
 
 Esfera** ColObjetos::getColEsferas() {
@@ -49,6 +53,10 @@ Triangulo** ColObjetos::getColTriangulos() {
 	return triangulos;
 }
 
+Light** ColObjetos::getColLuces() {
+	return luces;
+}
+
 int ColObjetos::getCantEsferas() {
 	return cantEsferas;
 }
@@ -61,6 +69,9 @@ int ColObjetos::getCantCilindros() {
 int ColObjetos::getCantTriangulos() {
 	return cantTriangulos;
 }
+int ColObjetos::getCantLuces() {
+	return cantLuces;
+}
 int ColObjetos::getCantEsferasTot() {
 	return cantEsferasTot;
 }
@@ -72,6 +83,9 @@ int ColObjetos::getCantCilindrosTot() {
 }
 int ColObjetos::getCantTriangulosTot() {
 	return cantTriangulosTot;
+}
+int ColObjetos::getCantLucesTot() {
+	return cantLucesTot;
 }
 
 
@@ -93,4 +107,9 @@ void ColObjetos::agregarTriangulo(Triangulo* obj) {
 void ColObjetos::agregarCilindro(Cilindro* obj) {
 	cilindros[cantCilindros] = obj;
 	cantCilindros++;
+}
+
+void ColObjetos::agregarLuz(Light* obj) {
+	luces[cantLuces] = obj;
+	cantLuces++;
 }

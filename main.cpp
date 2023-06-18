@@ -9,6 +9,7 @@
 #include "OpenGL-basico/plane.h"
 #include "OpenGL-basico/cylinder.h"
 #include "OpenGL-basico/ColeccionObjetos.h"
+#include <algorithm>
 
 using namespace std;
 using namespace tinyxml2;
@@ -21,12 +22,10 @@ struct camera {
 	float fov;
 };
 
-struct Light {
-	vec3 position;
-	vec3 dir;
-	vec3 intensity;
-	vec3 color;
-};
+
+float remap(float n, float lowerO, float upperO, float lowerN, float upperN) {
+	return lowerO + (n - lowerN) * (upperO - lowerO) / (upperN - lowerN);
+}
 
 Primitive* intersect(ray rayo,vec3 &normalO,vec3 &hitPointO) {
 	vec3* norm = new vec3(100, 100, 100);
@@ -35,8 +34,6 @@ Primitive* intersect(ray rayo,vec3 &normalO,vec3 &hitPointO) {
 	vec3 norm_min(100, 100, 100);
 	Primitive* hit = NULL;
 	bool intersect = false;
-	float tnear;
-	float tnearK;
 	bool j = false;
 	ColObjetos* col = NULL;
 	col = col->getInstance();
@@ -93,103 +90,66 @@ Primitive* intersect(ray rayo,vec3 &normalO,vec3 &hitPointO) {
 		return NULL;
 	}
 }
+vec3 traza_RR(ray &rayo, int alt);
 
-Primitive* intersectS(ray rayo, vec3& normalO, vec3& hitPointO) {
-	vec3* norm = new vec3(100, 100, 100);
-	vec3* hitPoint = new vec3(100, 100, 100);
-	vec3 hitPoint_min(100, 100, 100);
-	vec3 norm_min(100, 100, 100);
-	Primitive* hit = NULL;
-	bool intersect = false;
-	float tnear;
-	float tnearK;
-	bool j = false;
+vec3 sombra_RR(Primitive* obj, ray& rayo, vec3& hitPoint, vec3& normal, int alt) {
+	ray rayoSombra;
 	ColObjetos* col = NULL;
 	col = col->getInstance();
-	Esfera** e = col->getColEsferas();
-	for (int i = 0; i < col->getCantEsferas(); i++) {
-		j = e[i]->intersectRayS(rayo, norm, hitPoint);
-		if (j && norma(*hitPoint) < norma(hitPoint_min)) {
-			hitPoint_min = *hitPoint;
-			norm_min = *norm;
-			intersect = true;
-			hit = e[i];
-		}
-	}
-	Plano** p = col->getColPlanos();
-	for (int i = 0; i < col->getCantPlanos(); i++) {
-		j = p[i]->intersectRay(rayo, norm, hitPoint, 7);
-		if (j && norma(*hitPoint) < norma(hitPoint_min)) {
-			hitPoint_min = *hitPoint;
-			norm_min = *norm;
-			intersect = true;
-			hit = p[i];
-		}
-	}
-
-	Cilindro** c = col->getColCilindros();
-	for (int i = 0; i < col->getCantCilindros(); i++) {
-		j = c[i]->intersectRay(rayo, norm, hitPoint);
-		if (j && norma(*hitPoint) < norma(hitPoint_min)) {
-			hitPoint_min = *hitPoint;
-			norm_min = *norm;
-			intersect = true;
-			hit = c[i];
-		}
-	}
-
-	Triangulo** t = col->getColTriangulos();
-	for (int i = 0; i < col->getCantTriangulos(); i++) {
-		j = t[i]->intersectRay(rayo, norm, hitPoint);
-		if (j && norma(*hitPoint) < norma(hitPoint_min)) {
-			hitPoint_min = *hitPoint;
-			norm_min = *norm;
-			intersect = true;
-			hit = t[i];
-		}
-	}
-	if (intersect) {
-		normalO = norm_min;
-		hitPointO = hitPoint_min;
-		return hit;
-	}
-	else {
-		normalO = vec3(0, 0, 0);
-		hitPointO = vec3(100, 100, 100);
-		return NULL;
-	}
-}
-
-
-vec3 sombra_RR(Primitive* obj, ray rayo, vec3 hitPoint, vec3 normal, int alt, Light* light) {
-	ray rayoSombra;
-	if(rayo.dir*normal <= 0 + 0.00001) rayoSombra.origin = hitPoint + normal*0.00001;
+	vec3 color;
+	if (rayo.dir * normal <= 0 + 0.00001) rayoSombra.origin = hitPoint + normal * 0.00001;
 	else rayoSombra.origin = hitPoint - normal * 0.00001;
-	rayoSombra.dir = normalize(light->position - rayoSombra.origin);
-	vec3 hitSombra, normalSombra;
-	Primitive* a = intersectS(rayoSombra, normalSombra, hitSombra);
-	vec3 L = normalize(light->position - rayoSombra.origin);
-	float fctr = normal * L;
-	float ka = 0.2;
-	float kd = 0.6;
-	if ((a != NULL && (norma(rayoSombra.origin - hitSombra + normalSombra * 0.00001) < norma(rayoSombra.origin - light->position)) && norma(light->position - hitSombra+normalSombra*0.00001) < norma(rayoSombra.origin - light->position))|| fctr<0) {
-		return obj->getMat().diffuse * ka;
+	Light** l = col->getColLuces();
+	Primitive* a = NULL;
+	vec3 hitSombra, normalSombra,L;
+	for (int i = 0; i < col->getCantLuces(); i++) {
+		rayoSombra.dir = normalize((hitPoint + normal * 0.00001) - l[i]->position);
+		hitSombra = vec3(100, 100, 100);
+		normalSombra = vec3(100, 100, 100);
+		a = intersect(rayoSombra, normalSombra, hitSombra);
+		L = normalize(l[i]->position - hitPoint);
+		float fctr = normal * L;
+		if ((a != NULL && norma(l[i]->position - (hitSombra - normalSombra * 0.00001)) < norma((hitPoint + normal * 0.00001) - l[i]->position)) || fctr < 0) {
+			color = obj->getMat().diffuse * obj->getMat().ka;
+			if (color.x < 0) color.x = 0;
+			if (color.y < 0) color.y = 0;
+			if (color.z < 0) color.z = 0;
+		}
+		else {
+			vec3 V = normalize(rayo.origin - hitPoint);
+			vec3 H = normalize(L + V);
+			float hf = pow(H * normal, obj->getMat().specular);
+			color = color + (obj->getMat().diffuse * obj->getMat().ka) + (mult(normalize(l[i]->intensity), obj->getMat().diffuse) * obj->getMat().kd * fctr * remap(norma(l[i]->intensity), 0, 1, 0, 200) + l[i]->intensity * hf * obj->getMat().ks);
+			if (color.x > 255) color.x = 255;
+			if (color.y > 255) color.y = 255;
+			if (color.z > 255) color.z = 255;
+		}
 	}
-	else {
-		vec3 V = normalize(rayo.origin - rayoSombra.origin);
-		vec3 H = normalize(L + V);
-		float hf = pow(H * normal, obj->getMat().specular);
-		return obj->getMat().diffuse * ka + obj->getMat().diffuse * kd * fctr + vec3(1,1,1)*hf*obj->getMat().ks;
+	if (alt < 6) {
+		if (obj->getMat().ks > 0) {
+			ray rayo_r;
+			vec3 reflectionDirection = reflect(rayo.dir,normalize(obj->getPos() - hitPoint));
+			vec3 reflectionRayOrig = ((reflectionDirection*normal) < 0) ?
+				hitPoint + normal * 0.00001 :
+				hitPoint - normal * 0.00001;
+			rayo_r.dir = reflectionDirection;
+			rayo_r.origin = reflectionRayOrig;
+			color = color + traza_RR(rayo_r, alt + 1)* obj->getMat().ks;
+			if (color.x > 255) color.x = 255;
+			if (color.y > 255) color.y = 255;
+			if (color.z > 255) color.z = 255;
+		}
 	}
+	return color;
 };
 
 
-vec3 traza_RR(ray rayo, int alt, Light* light) {
+vec3 traza_RR(ray &rayo, int alt) {
 	vec3 norm, hitPoint;
 	vec3 res;
 	Primitive* inter = intersect(rayo, norm, hitPoint);
 	if (inter != NULL) {
-		return sombra_RR(inter,rayo,hitPoint,norm,alt,light);
+		return sombra_RR(inter,rayo,hitPoint,norm,alt);
 	}
 	else return vec3(20, 20, 20);
 	/*if (norm.x > 0) {
@@ -208,8 +168,8 @@ vec3 traza_RR(ray rayo, int alt, Light* light) {
 	}
 	else {
 		res.z = 255 * abs(norm.z);
-	}*/
-	return res; //Esto sirve para ver las normales
+	}
+	return res;*/ //Esto sirve para ver las normales
 };
 
 int main(int argc, char *argv[]) {
@@ -221,7 +181,7 @@ int main(int argc, char *argv[]) {
 	col = col->getInstance();
 
 	XMLElement* settings = doc.FirstChildElement();
-	col->inicializarCol(settings->FloatAttribute("spheres") , settings->FloatAttribute("planes"), settings->FloatAttribute("cilinders"), settings->FloatAttribute("tris"));
+	col->inicializarCol(settings->FloatAttribute("spheres") , settings->FloatAttribute("planes"), settings->FloatAttribute("cilinders"), settings->FloatAttribute("tris"), settings->FloatAttribute("lights"));
 	camera cam;
 	XMLElement* camera = settings->FirstChildElement();
 	cam.resW = camera->FloatAttribute("resW");
@@ -245,12 +205,13 @@ int main(int argc, char *argv[]) {
 	XMLElement* obPos = spheres->FirstChildElement();
 
 	for (int i = 0; i < col->getCantEsferasTot(); i++) {
-		mat.reflective = spheres->FloatAttribute("refl");
-		mat.refractive = spheres->FloatAttribute("refr");
 		radius = spheres->FloatAttribute("radius");
 		mat.specular = spheres->FloatAttribute("spec");
 		mat.IOR = spheres->FloatAttribute("IOR");
 		mat.ks = spheres->FloatAttribute("ks");
+		mat.kd = spheres->FloatAttribute("kd");
+		mat.ka = spheres->FloatAttribute("ka");
+		mat.kt = spheres->FloatAttribute("kt");
 		mat.diffuse.x = spheres->FloatAttribute("colorR");
 		mat.diffuse.y = spheres->FloatAttribute("colorG");
 		mat.diffuse.z = spheres->FloatAttribute("colorB");
@@ -262,16 +223,17 @@ int main(int argc, char *argv[]) {
 		col->agregarEsfera(new Esfera(center, radius, mat));
 		spheres = spheres->NextSiblingElement();
 	}
-
 	XMLElement* planes = settings->FirstChild()->NextSibling()->NextSibling()->FirstChildElement();
 	float a, b, c, d;
-
+	
 	for(int i = 0; i < col->getCantPlanosTot(); i++) {
-		mat.reflective = planes->FloatAttribute("refl");
-		mat.refractive = planes->FloatAttribute("refr");
+		
 		mat.specular = planes->FloatAttribute("spec");
 		mat.IOR = planes->FloatAttribute("IOR");
 		mat.ks = planes->FloatAttribute("ks");
+		mat.kd = planes->FloatAttribute("kd");
+		mat.ka = planes->FloatAttribute("ka");
+		mat.kt = planes->FloatAttribute("kt");
 		mat.diffuse.x = planes->FloatAttribute("colorR");
 		mat.diffuse.y = planes->FloatAttribute("colorG");
 		mat.diffuse.z = planes->FloatAttribute("colorB");
@@ -287,13 +249,14 @@ int main(int argc, char *argv[]) {
 	XMLElement* cyls = settings->FirstChild()->NextSibling()->NextSibling()->NextSibling()->FirstChildElement();
 	vec3 vpos;
 	float altura;
-
+	
 	for (int i = 0; i < col->getCantCilindrosTot(); i++) {
-		mat.reflective = cyls->FloatAttribute("refl");
-		mat.refractive = cyls->FloatAttribute("refr");
 		mat.specular = cyls->FloatAttribute("spec");
 		mat.IOR = cyls->FloatAttribute("IOR");
 		mat.ks = cyls->FloatAttribute("ks");
+		mat.kd = cyls->FloatAttribute("kd");
+		mat.ka = cyls->FloatAttribute("ka");
+		mat.kt = cyls->FloatAttribute("kt");
 		mat.diffuse.x = cyls->FloatAttribute("colorR");
 		mat.diffuse.y = cyls->FloatAttribute("colorG");
 		mat.diffuse.z = cyls->FloatAttribute("colorB");
@@ -308,13 +271,14 @@ int main(int argc, char *argv[]) {
 	}
 	XMLElement* tris = settings->FirstChild()->NextSibling()->NextSibling()->NextSibling()->NextSibling()->FirstChildElement();
 	vec3 v1, v2, v3;
-
+	
 	for (int i = 0; i < col->getCantTriangulosTot(); i++) {
-		mat.reflective = tris->FloatAttribute("refl");
-		mat.refractive = tris->FloatAttribute("refr");
 		mat.specular = tris->FloatAttribute("spec");
 		mat.IOR = tris->FloatAttribute("IOR");
 		mat.ks = tris->FloatAttribute("ks");
+		mat.kd = tris->FloatAttribute("kd");
+		mat.ka = tris->FloatAttribute("ka");
+		mat.kt = tris->FloatAttribute("kt");
 		mat.diffuse.x = tris->FloatAttribute("colorR");
 		mat.diffuse.y = tris->FloatAttribute("colorG");
 		mat.diffuse.z = tris->FloatAttribute("colorB");
@@ -331,6 +295,20 @@ int main(int argc, char *argv[]) {
 		col->agregarTriangulo(new Triangulo(v1,v2,v3, mat));
 		tris = tris->NextSiblingElement();
 	}
+	
+	XMLElement* lights = settings->FirstChild()->NextSibling()->NextSibling()->NextSibling()->NextSibling()->NextSibling()->FirstChildElement();
+
+	for (int i = 0; i < col->getCantLucesTot(); i++) {
+		Light* light = new Light();
+		light->position.x = lights->FloatAttribute("posx");
+		light->position.y = lights->FloatAttribute("posy");
+		light->position.z = lights->FloatAttribute("posz");
+		light->intensity.x = lights->FloatAttribute("intx");
+		light->intensity.y = lights->FloatAttribute("inty");
+		light->intensity.z = lights->FloatAttribute("intz");
+		col->agregarLuz(light);
+		lights = lights->NextSiblingElement();
+	}
 
 
 	mat.diffuse.z = 255;
@@ -340,16 +318,7 @@ int main(int argc, char *argv[]) {
 	ray rayo;
 	float camRatio = cam.resW / cam.resH;
 
-	Light* light = new Light();
-	light->position.x = 0.0;
-	light->position.y = 1.0;
-	light->position.z = 0.10;
-	light->intensity.x = 1.5;
-	light->intensity.y = 1.5;
-	light->intensity.z = 1.5;
-	light->color.x = 1.0;
-	light->color.y = 1.0;
-	light->color.z = 1.0;
+	
 
 
 	for (int j = 0; j < cam.resH; j++) {
@@ -365,7 +334,7 @@ int main(int argc, char *argv[]) {
 			rayo.origin = cam.origin;
 			rayo.dir = normalize(cam_X * px + cam_Y * py + cam_Z * pz);
 
-			pixel = traza_RR(rayo, 1, light);
+			pixel = traza_RR(rayo, 1);
 			color.rgbRed = pixel.x;
 			color.rgbGreen = pixel.y;
 			color.rgbBlue = pixel.z;
