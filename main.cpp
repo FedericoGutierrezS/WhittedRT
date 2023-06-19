@@ -13,6 +13,8 @@
 #include <cstdint>
 #include <iomanip>
 #include <iostream>
+#include <ctime>
+#include <regex>
 
 using namespace std;
 using namespace tinyxml2;
@@ -380,7 +382,17 @@ int main(int argc, char *argv[]) {
 			FreeImage_SetPixelColor(bitmap, i,j , &color);
 		}
 	}
-	FreeImage_Save(FIF_PNG, bitmap, "test.png", 0);
+	time_t res = time(NULL);
+	char str[26];
+	string st;
+	ctime_s(str, sizeof str, &res);
+	regex r(":");
+	st = regex_replace(str, r, "");
+	regex nl("\n");
+	st = regex_replace(st, nl, "");
+	regex j(" ");
+	st =regex_replace(st, j, "") + '.' + 'p' + 'n' + 'g';
+	FreeImage_Save(FIF_PNG, bitmap, st.c_str(), 0);
 	FreeImage_DeInitialise();
 	return 0;
 }

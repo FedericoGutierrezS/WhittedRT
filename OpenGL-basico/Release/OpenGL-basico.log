@@ -1,29 +1,29 @@
 ﻿  main.cpp
-C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(110,31): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(111,30): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(123,78): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(124,68): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(153,52): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(154,51): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(168,23): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(175,52): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(176,51): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(226,193): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(226,159): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(226,120): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(226,84): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(226,46): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(231,54): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(359,53): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(359,43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(369,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(370,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(112,31): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(113,30): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(125,78): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(126,68): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(155,52): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(156,51): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(170,23): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(177,52): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(178,51): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(228,193): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(228,159): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(228,120): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(228,84): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(228,46): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(233,54): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(361,53): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(361,43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
 C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(371,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(377,24): warning C4244: '=': conversion from 'float' to 'BYTE', possible loss of data
-C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(378,26): warning C4244: '=': conversion from 'float' to 'BYTE', possible loss of data
-C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(379,25): warning C4244: '=': conversion from 'float' to 'BYTE', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(372,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(373,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(379,24): warning C4244: '=': conversion from 'float' to 'BYTE', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(380,26): warning C4244: '=': conversion from 'float' to 'BYTE', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(381,25): warning C4244: '=': conversion from 'float' to 'BYTE', possible loss of data
   Generating code
-  1 of 355 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
+  1 of 1169 functions (<0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
