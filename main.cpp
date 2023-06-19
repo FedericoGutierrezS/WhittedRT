@@ -15,6 +15,7 @@
 #include <iostream>
 #include <ctime>
 #include <regex>
+#include <direct.h>
 
 using namespace std;
 using namespace tinyxml2;
@@ -100,7 +101,7 @@ Primitive* intersect(ray rayo,vec3 &normalO,vec3 &hitPointO) {
 		return NULL;
 	}
 }
-vec3 traza_RR(ray &rayo, int alt);
+vec3 traza_RR(ray&, int);
 
 vec3 sombra_RR(Primitive* obj, ray& rayo, vec3& hitPoint, vec3& normal, int alt) {
 	ray rayoSombra;
@@ -187,11 +188,22 @@ vec3 sombra_RR(Primitive* obj, ray& rayo, vec3& hitPoint, vec3& normal, int alt)
 	return color;
 };
 
-
-vec3 traza_RR(ray &rayo, int alt) {
+vec3 traza_RR(ray& rayo, int alt) {
 	vec3 norm, hitPoint;
 	vec3 res;
 	Primitive* inter = intersect(rayo, norm, hitPoint);
+	if (inter != NULL) {
+		return sombra_RR(inter, rayo, hitPoint, norm, alt);
+	}
+	else return vec3(0, 0, 0);
+};
+
+vec3 traza_RR(ray &rayo, int alt, vec3 &pixelRefl, vec3 &pixelRefr) {
+	vec3 norm, hitPoint;
+	vec3 res;
+	Primitive* inter = intersect(rayo, norm, hitPoint);
+	pixelRefl = vec3(255, 255, 255) * inter->getMat().ks;
+	pixelRefr = vec3(255, 255, 255) * inter->getMat().kt;
 	if (inter != NULL) {
 		return sombra_RR(inter,rayo,hitPoint,norm,alt);
 	}
@@ -359,8 +371,12 @@ int main(int argc, char *argv[]) {
 	}
 
 	FIBITMAP* bitmap = FreeImage_Allocate(cam.resW, cam.resH, 24);
+	FIBITMAP* bitmapRefl = FreeImage_Allocate(cam.resW, cam.resH, 24);
+	FIBITMAP* bitmapRefr = FreeImage_Allocate(cam.resW, cam.resH, 24);
 	RGBQUAD color;
 	vec3 pixel;
+	vec3 pixelRefl;
+	vec3 pixelRefr;
 	ray rayo;
 	for (int j = 0; j < cam.resH; j++) {
 		for (int i = 0; i < cam.resW; i++) {
@@ -375,11 +391,19 @@ int main(int argc, char *argv[]) {
 			rayo.origin = cam.origin;
 			rayo.dir = normalize(cam_X * px + cam_Y * py + cam_Z * pz);
 
-			pixel = traza_RR(rayo, 1);
+			pixel = traza_RR(rayo, 1,pixelRefl,pixelRefr);
 			color.rgbRed = pixel.x;
 			color.rgbGreen = pixel.y;
 			color.rgbBlue = pixel.z;
 			FreeImage_SetPixelColor(bitmap, i,j , &color);
+			color.rgbRed = pixelRefl.x;
+			color.rgbGreen = pixelRefl.y;
+			color.rgbBlue = pixelRefl.z;
+			FreeImage_SetPixelColor(bitmapRefl, i, j, &color);
+			color.rgbRed = pixelRefr.x;
+			color.rgbGreen = pixelRefr.y;
+			color.rgbBlue = pixelRefr.z;
+			FreeImage_SetPixelColor(bitmapRefr, i, j, &color);
 		}
 	}
 	time_t res = time(NULL);
@@ -391,8 +415,15 @@ int main(int argc, char *argv[]) {
 	regex nl("\n");
 	st = regex_replace(st, nl, "");
 	regex j(" ");
-	st =regex_replace(st, j, "") + '.' + 'p' + 'n' + 'g';
-	FreeImage_Save(FIF_PNG, bitmap, st.c_str(), 0);
+	st =regex_replace(st, j, "");
+	_mkdir(st.c_str());
+	st = st + '/' + st;
+	string sn = st + '.' + 'p' + 'n' + 'g';
+	string srl = st + 'R' + 'l' + '.' + 'p' + 'n' + 'g';
+	string srr = st + 'R' + 'r' + '.' + 'p' + 'n' + 'g';
+	FreeImage_Save(FIF_PNG, bitmap, sn.c_str(), 0);
+	FreeImage_Save(FIF_PNG, bitmapRefl, srl.c_str(), 0);
+	FreeImage_Save(FIF_PNG, bitmapRefr, srr.c_str() , 0);
 	FreeImage_DeInitialise();
 	return 0;
 }
