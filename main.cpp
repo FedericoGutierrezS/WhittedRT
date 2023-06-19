@@ -382,7 +382,10 @@ int main(int argc, char *argv[]) {
 	vec3 pixel;
 	vec3 pixelRefl;
 	vec3 pixelRefr;
-	ray rayo;
+	ray rayo1;
+	ray rayo2;
+	ray rayo3;
+
 	for (int j = 0; j < cam.resH; j++) {
 		for (int i = 0; i < cam.resW; i++) {
 			vec3 cam_Z = normalize(cam.origin - cam.look);
@@ -393,10 +396,14 @@ int main(int argc, char *argv[]) {
 			float px = (2.0*i - cam.resW) / cam.resH;
 			float pz = -1.0 / tan(cam.fov / 2.0);
 
-			rayo.origin = cam.origin;
-			rayo.dir = normalize(cam_X * px + cam_Y * py + cam_Z * pz);
+			rayo1.origin = cam.origin;
+			rayo1.dir = normalize(cam_X * px + cam_Y * py + cam_Z * pz);
+			rayo2.origin = cam.origin;
+			rayo2.dir = normalize(cam_X * px + cam_Y * py + cam_Z * pz + vec3(0.001, 0.001, 0.001));
+			rayo3.origin = cam.origin;
+			rayo3.dir = normalize(cam_X * px + cam_Y * py + cam_Z * pz - vec3(0.001, 0.001, 0.001));
 
-			pixel = traza_RR(rayo, 1,pixelRefl,pixelRefr);
+			pixel = traza_RR(rayo1, 1, pixelRefl, pixelRefr)*0.333333 + traza_RR(rayo2, 1)*0.333333 + traza_RR(rayo3, 1) * 0.333333;
 			color.rgbRed = pixel.x;
 			color.rgbGreen = pixel.y;
 			color.rgbBlue = pixel.z;
