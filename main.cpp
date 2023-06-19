@@ -105,20 +105,23 @@ vec3 sombra_RR(Primitive* obj, ray& rayo, vec3& hitPoint, vec3& normal, int alt)
 	ColObjetos* col = NULL;
 	col = col->getInstance();
 	vec3 color = obj->getMat().diffuse* obj->getMat().ka;
-	if (rayo.dir * normal <= 0 + 0.00001) rayoSombra.origin = hitPoint + normal * 0.00001;
-	else rayoSombra.origin = hitPoint - normal * 0.00001;
 	Light** l = col->getColLuces();
+	rayoSombra.origin = (rayo.dir* normal < 0) ?
+		hitPoint - normal * 0.0001 :
+		hitPoint + normal * 0.0001;
 	Primitive* a = NULL;
 	vec3 hitSombra, normalSombra,L;
+	float distLuzObj, distLuzSombra;
 	for (int i = 0; i < col->getCantLuces(); i++) {
-		rayoSombra.dir = normalize((hitPoint + normal * 0.00001) - l[i]->position);
-		hitSombra = vec3(100, 100, 100);
-		normalSombra = vec3(100, 100, 100);
+		rayoSombra.dir = normalize(hitPoint - l[i]->position);
 		a = intersect(rayoSombra, normalSombra, hitSombra);
 		L = normalize(l[i]->position - hitPoint);
 		float fctr = normal * L;
-		if ((a != NULL && norma(l[i]->position - (hitSombra - normalSombra * 0.00001)) < norma((hitPoint + normal * 0.00001) - l[i]->position)) || fctr < 0) {
-			color = color - (obj->getMat().diffuse * (obj->getMat().ka*0.1)*(1 - a->getMat().kt));
+		distLuzSombra = norma(hitSombra - l[i]->position);
+		distLuzObj = norma(l[i]->position - rayoSombra.origin);
+		if ((distLuzSombra < distLuzObj) || fctr < -0.00001) {
+			if (a != NULL) color = color - (obj->getMat().diffuse * (obj->getMat().ka * 0.1) * (1 - a->getMat().kt));
+			else color = color - (obj->getMat().diffuse * (obj->getMat().ka * 0.1));
 			if (color.x < 0) color.x = 0;
 			if (color.y < 0) color.y = 0;
 			if (color.z < 0) color.z = 0;
@@ -127,7 +130,7 @@ vec3 sombra_RR(Primitive* obj, ray& rayo, vec3& hitPoint, vec3& normal, int alt)
 			vec3 V = normalize(rayo.origin - hitPoint);
 			vec3 H = normalize(L + V);
 			float hf = pow(H * normal, obj->getMat().specular);
-			color = color + (obj->getMat().diffuse * obj->getMat().ka) + (mult(normalize(l[i]->intensity), obj->getMat().diffuse) * obj->getMat().kd * fctr * remap(norma(l[i]->intensity), 0, 1, 0, 200) + l[i]->intensity * hf * obj->getMat().ks);
+			color = color + (obj->getMat().diffuse * obj->getMat().ka) + (mult(normalize(l[i]->intensity), obj->getMat().diffuse) * obj->getMat().kd * fctr * remap(norma(l[i]->intensity), 0, 1, 0, 200) + l[i]->intensity * hf * obj->getMat().kss);
 			if (color.x > 255) color.x = 255;
 			if (color.y > 255) color.y = 255;
 			if (color.z > 255) color.z = 255;
@@ -141,14 +144,14 @@ vec3 sombra_RR(Primitive* obj, ray& rayo, vec3& hitPoint, vec3& normal, int alt)
 				cout << rayo.origin.x << " " << rayo.origin.y << " " << rayo.origin.z << "\n";
 				cout << normal.x << " " << normal.y << " " << normal.z << "\n";
 			}*/
-	if (alt < 5) {
+	if (alt < 4) {
 		if (obj->getMat().ks > 0) {
 			ray rayo_r;
 			vec3 reflectionDirection;
 			vec3 reflectionRayOrig;
-			if (rayo.dir * normal <= 0 + 0.00001) reflectionRayOrig = hitPoint + normal * 0.00001;
-			else reflectionRayOrig = hitPoint - normal * 0.00001;
-			reflectionDirection = normalize(reflect(rayo.dir, normal));
+			if (rayo.dir * normal <= 0 + 0.00001) reflectionRayOrig = hitPoint + normal * 0.000001;
+			else reflectionRayOrig = hitPoint - normal * 0.000001;
+			reflectionDirection = reflect(normalize(hitPoint), normal);
 			rayo_r.dir = reflectionDirection;
 			rayo_r.origin = reflectionRayOrig;
 			color = color + traza_RR(rayo_r, alt + 1)* obj->getMat().ks;
@@ -160,24 +163,19 @@ vec3 sombra_RR(Primitive* obj, ray& rayo, vec3& hitPoint, vec3& normal, int alt)
 			ray rayo_re;
 			vec3 refractionDirection;
 			vec3 refractionRayOrig;
-			float ci = clamp(-1, 1, (rayo.dir * (-1)) * normal);
-			float etai = 1, etat = obj->getMat().IOR;
-			vec3 n;
-			if (ci < 0) ci = -ci;
-			else {
-				swap(etai, etat);
-				n = normal*-1;
-			}
+			float ci = ((hitPoint*(-1)) * normal);;
+			float etai = 1.0003, etat = obj->getMat().IOR;
+			vec3 n = normal;
 			float nit = etai / etat;
 			float si = sin(acos(ci));
-			float k = 1 - (1 - nit*(1 - ci * ci));
-			refractionDirection = normalize(rayo.dir*nit + (n*(nit*ci + sqrt(k))));
+			float k = (1 - nit*nit*si*si);
+			refractionDirection = normalize(hitPoint*nit + (n*(nit*ci - sqrt(k))));
 			refractionRayOrig = ((refractionDirection * normal) < 0) ?
 				refractionRayOrig = hitPoint - normal * 0.0001 :
 				refractionRayOrig = hitPoint + normal * 0.0001;
 			rayo_re.dir = refractionDirection;
 			rayo_re.origin = refractionRayOrig;
-			if(acos(ci) < asin(1/nit) && k >= 0-0.00001) color = color + traza_RR(rayo_re, alt + 1) * obj->getMat().kt;
+			if(nit*nit*(1-ci*ci) < 1) color = color + traza_RR(rayo_re, alt + 1) * obj->getMat().kt;
 			if (color.x > 255) color.x = 255;
 			if (color.y > 255) color.y = 255;
 			if (color.z > 255) color.z = 255;
@@ -194,7 +192,7 @@ vec3 traza_RR(ray &rayo, int alt) {
 	if (inter != NULL) {
 		return sombra_RR(inter,rayo,hitPoint,norm,alt);
 	}
-	else return vec3(20, 20, 20);
+	else return vec3(0, 0, 0);
 	/*if (norm.x > 0) {
 		res.x = 127 * norm.x;
 	} else {
@@ -252,6 +250,7 @@ int main(int argc, char *argv[]) {
 		mat.specular = spheres->FloatAttribute("spec");
 		mat.IOR = spheres->FloatAttribute("IOR");
 		mat.ks = spheres->FloatAttribute("ks");
+		mat.kss = spheres->FloatAttribute("kss");
 		mat.kd = spheres->FloatAttribute("kd");
 		mat.ka = spheres->FloatAttribute("ka");
 		mat.kt = spheres->FloatAttribute("kt");
@@ -274,6 +273,7 @@ int main(int argc, char *argv[]) {
 		mat.specular = planes->FloatAttribute("spec");
 		mat.IOR = planes->FloatAttribute("IOR");
 		mat.ks = planes->FloatAttribute("ks");
+		mat.kss = planes->FloatAttribute("kss");
 		mat.kd = planes->FloatAttribute("kd");
 		mat.ka = planes->FloatAttribute("ka");
 		mat.kt = planes->FloatAttribute("kt");
@@ -297,6 +297,7 @@ int main(int argc, char *argv[]) {
 		mat.specular = cyls->FloatAttribute("spec");
 		mat.IOR = cyls->FloatAttribute("IOR");
 		mat.ks = cyls->FloatAttribute("ks");
+		mat.kss = cyls->FloatAttribute("kss");
 		mat.kd = cyls->FloatAttribute("kd");
 		mat.ka = cyls->FloatAttribute("ka");
 		mat.kt = cyls->FloatAttribute("kt");
@@ -319,6 +320,7 @@ int main(int argc, char *argv[]) {
 		mat.specular = tris->FloatAttribute("spec");
 		mat.IOR = tris->FloatAttribute("IOR");
 		mat.ks = tris->FloatAttribute("ks");
+		mat.kss = tris->FloatAttribute("kss");
 		mat.kd = tris->FloatAttribute("kd");
 		mat.ka = tris->FloatAttribute("ka");
 		mat.kt = tris->FloatAttribute("kt");
@@ -357,7 +359,6 @@ int main(int argc, char *argv[]) {
 	RGBQUAD color;
 	vec3 pixel;
 	ray rayo;
-	
 	for (int j = 0; j < cam.resH; j++) {
 		for (int i = 0; i < cam.resW; i++) {
 			vec3 cam_Z = normalize(cam.origin - cam.look);

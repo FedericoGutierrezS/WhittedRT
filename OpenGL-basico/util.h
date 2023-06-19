@@ -44,6 +44,7 @@ struct material {
 	float specular;
 	float IOR;
 	float ks;
+	float kss;
 	float kd;
 	float ka;
 	float kt;

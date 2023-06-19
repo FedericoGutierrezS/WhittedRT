@@ -37,5 +37,6 @@ bool  Cilindro::intersectRay(ray rayo, vec3* norm, vec3* hitPoint) {
 		*norm = (vec3(hitPoint->x, hitPoint->y, 0.0) - vec3(position.x, position.y, 0.0));
 		*norm = *norm * (1 / norma(*norm));
 	};
+	if (t < 0) return false;
 	return true;
 }
