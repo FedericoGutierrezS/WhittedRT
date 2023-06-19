@@ -48,7 +48,7 @@ Primitive* intersect(ray rayo,vec3 &normalO,vec3 &hitPointO) {
 	Esfera** e = col->getColEsferas();
 	for (int i = 0; i < col->getCantEsferas(); i++) {
 		j = e[i]->intersectRay(rayo, norm, hitPoint);
-		if (j && norma(*hitPoint) < norma(hitPoint_min)) {
+		if (j && norma(*hitPoint - rayo.origin) < norma(hitPoint_min - rayo.origin)) {
 			hitPoint_min = *hitPoint;
 			norm_min = *norm;
 			intersect = true;
@@ -57,8 +57,8 @@ Primitive* intersect(ray rayo,vec3 &normalO,vec3 &hitPointO) {
 	}
 	Plano** p = col->getColPlanos();
 	for (int i = 0; i < col->getCantPlanos(); i++) {
-		j = p[i]->intersectRay(rayo, norm, hitPoint, 7);
-		if (j && norma(*hitPoint) < norma(hitPoint_min)) {
+		j = p[i]->intersectRay(rayo, norm, hitPoint, 2);
+		if (j && norma(*hitPoint - rayo.origin) < norma(hitPoint_min - rayo.origin)) {
 			hitPoint_min = *hitPoint;
 			norm_min = *norm;
 			intersect = true;
@@ -69,7 +69,7 @@ Primitive* intersect(ray rayo,vec3 &normalO,vec3 &hitPointO) {
 	Cilindro** c = col->getColCilindros();
 	for (int i = 0; i < col->getCantCilindros(); i++) {
 		j = c[i]->intersectRay(rayo, norm, hitPoint);
-		if (j && norma(*hitPoint) < norma(hitPoint_min)) {
+		if (j && norma(*hitPoint - rayo.origin) < norma(hitPoint_min - rayo.origin)) {
 			hitPoint_min = *hitPoint;
 			norm_min = *norm;
 			intersect = true;
@@ -80,7 +80,7 @@ Primitive* intersect(ray rayo,vec3 &normalO,vec3 &hitPointO) {
 	Triangulo** t = col->getColTriangulos();
 	for (int i = 0; i < col->getCantTriangulos(); i++) {
 		j = t[i]->intersectRay(rayo, norm, hitPoint);
-		if (j && norma(*hitPoint) < norma(hitPoint_min)) {
+		if (j && norma(*hitPoint - rayo.origin) < norma(hitPoint_min - rayo.origin)) {
 			hitPoint_min = *hitPoint;
 			norm_min = *norm;
 			intersect = true;
@@ -107,21 +107,21 @@ vec3 sombra_RR(Primitive* obj, ray& rayo, vec3& hitPoint, vec3& normal, int alt)
 	vec3 color = obj->getMat().diffuse* obj->getMat().ka;
 	Light** l = col->getColLuces();
 	rayoSombra.origin = (rayo.dir* normal < 0) ?
-		hitPoint - normal * 0.0001 :
-		hitPoint + normal * 0.0001;
+		hitPoint + normal * 0.00001 :
+		hitPoint - normal * 0.00001;
 	Primitive* a = NULL;
 	vec3 hitSombra, normalSombra,L;
-	float distLuzObj, distLuzSombra;
+	float distLuzObj, distObjSombra;
 	for (int i = 0; i < col->getCantLuces(); i++) {
-		rayoSombra.dir = normalize(hitPoint - l[i]->position);
+		rayoSombra.dir = normalize(l[i]->position - hitPoint);
 		a = intersect(rayoSombra, normalSombra, hitSombra);
 		L = normalize(l[i]->position - hitPoint);
 		float fctr = normal * L;
-		distLuzSombra = norma(hitSombra - l[i]->position);
-		distLuzObj = norma(l[i]->position - rayoSombra.origin);
-		if ((distLuzSombra < distLuzObj) || fctr < -0.00001) {
-			if (a != NULL) color = color - (obj->getMat().diffuse * (obj->getMat().ka * 0.1) * (1 - a->getMat().kt));
-			else color = color - (obj->getMat().diffuse * (obj->getMat().ka * 0.1));
+		distObjSombra = norma(hitSombra - hitPoint);
+		distLuzObj = norma(l[i]->position - hitPoint);
+		if ((a!=NULL&&(distObjSombra < distLuzObj)) || fctr < -0.00001) {
+			if (a != NULL) color = color - (obj->getMat().diffuse * (obj->getMat().ka * 0.3) * (1 - a->getMat().kt));
+			else color = color - (obj->getMat().diffuse * (obj->getMat().ka * 0.3));
 			if (color.x < 0) color.x = 0;
 			if (color.y < 0) color.y = 0;
 			if (color.z < 0) color.z = 0;
@@ -149,8 +149,9 @@ vec3 sombra_RR(Primitive* obj, ray& rayo, vec3& hitPoint, vec3& normal, int alt)
 			ray rayo_r;
 			vec3 reflectionDirection;
 			vec3 reflectionRayOrig;
-			if (rayo.dir * normal <= 0 + 0.00001) reflectionRayOrig = hitPoint + normal * 0.000001;
-			else reflectionRayOrig = hitPoint - normal * 0.000001;
+			reflectionRayOrig = ((reflectionDirection * normal) < 0) ?
+				reflectionRayOrig = hitPoint + normal * 0.0001 :
+				reflectionRayOrig = hitPoint - normal * 0.0001;
 			reflectionDirection = reflect(normalize(hitPoint), normal);
 			rayo_r.dir = reflectionDirection;
 			rayo_r.origin = reflectionRayOrig;

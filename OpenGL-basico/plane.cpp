@@ -6,7 +6,7 @@ bool  Plano::intersectRay(ray rayo, vec3* norm, vec3* hitPoint, float fMax) {
 	if (vd > 0) return false;
 	float v0 = -((Pn * rayo.origin) + D);
 	float t = v0 / vd;
-	if (t < 0) return false;
+	if (t < 0 || t > fMax) return false;
 	*hitPoint = vec3(rayo.origin + rayo.dir * t);
 	*norm = Pn;
 	return true;

@@ -30,7 +30,7 @@ bool  Esfera::intersectRay(ray rayo, vec3* norm, vec3* hitPoint) {
 		float discr = DdotV * DdotV - a0;
 		if (discr >= 0) {
 			float t = -DdotV - sqrt(discr);
-			if(t < 0) return false;
+			if(t < -0.00001) return false;
 			*hitPoint = rayo.origin + (rayo.dir*t);
 			*norm = normalize(*hitPoint - position);
 			return true;

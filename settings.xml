@@ -1,7 +1,7 @@
  <?xml version="1.0" encoding="UTF-8"?>
- <settings spheres="2" planes="5" cilinders="1" tris="12" lights="1">
+ <settings spheres="2" planes="5" cilinders="1" tris="12" lights="3">
 	<camera resW="1024" resH="1024" fov="60">
-		<look x="0.0" y="0.3" z="-0.03" ></look>
+		<look x="0.0" y="1.0" z="-0.03" ></look>
 		<pos x="0.0" y="-0.2" z="0.0" ></pos>
 	</camera>
 	<spheres>
@@ -73,7 +73,8 @@
 		 </twelvfth>
 	 </tris>
 	 <lights>
-		 <first posx="0.0" posy="0.8" posz="0.28" intx="120" inty="120" intz="120"> </first>
-		 <third posx="0.4" posy="0.9" posz="0.27" intx="0" inty="10" intz="50"> </third>
+		 <first posx="0.2" posy="1.05" posz="0.28" intx="100" inty="100" intz="100"> </first>
+		 <second posx="-0.4" posy="0.7" posz="0.27" intx="40" inty="5" intz="0"> </second>
+		 <third posx="0.4" posy="0.7" posz="0.27" intx="0" inty="5" intz="30"> </third>
 	 </lights>
  </settings>
