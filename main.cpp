@@ -231,7 +231,7 @@ vec3 traza_RR(ray &rayo, int alt, vec3 &pixelRefl, vec3 &pixelRefr) {
 int main(int argc, char *argv[]) {
 	FreeImage_Initialise();
 	XMLDocument doc;
-	doc.LoadFile("../settings.xml");
+	doc.LoadFile("settings.xml");
 
 	ColObjetos* col = NULL;
 	col = col->getInstance();
