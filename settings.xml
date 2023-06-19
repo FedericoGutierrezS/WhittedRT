@@ -1,5 +1,5 @@
  <?xml version="1.0" encoding="UTF-8"?>
- <settings spheres="2" planes="5" cilinders="1" tris="12" lights="3">
+ <settings spheres="2" planes="0" cilinders="1" tris="12" lights="3">
 	<camera resW="1024" resH="1024" fov="60">
 		<look x="0.0" y="1.0" z="-0.03" ></look>
 		<pos x="0.0" y="-0.2" z="0.0" ></pos>

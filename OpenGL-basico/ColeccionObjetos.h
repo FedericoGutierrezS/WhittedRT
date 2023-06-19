@@ -21,6 +21,7 @@ private:
 	int cantCilindrosTot;
 	int cantTriangulosTot;
 	int cantLucesTot;
+	int prof;
 	ColObjetos();
 public:
 	static ColObjetos* getInstance();
@@ -40,6 +41,8 @@ public:
 	int getCantCilindrosTot();
 	int getCantTriangulosTot();
 	int getCantLucesTot();
+	int getProf();
+	void setProf(int);
 	void agregarEsfera(Esfera*);
 	void agregarPlano(Plano*);
 	void agregarTriangulo(Triangulo*);

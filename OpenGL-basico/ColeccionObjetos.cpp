@@ -37,6 +37,14 @@ void ColObjetos::inicializarCol(int cantEsfera, int cantPlano, int cantCilindro,
 	cantLucesTot = cantLuz;
 }
 
+int ColObjetos::getProf() {
+	return prof;
+}
+
+void ColObjetos::setProf(int palt) {
+	prof = palt;
+}
+
 Esfera** ColObjetos::getColEsferas() {
 	return esferas;
 }

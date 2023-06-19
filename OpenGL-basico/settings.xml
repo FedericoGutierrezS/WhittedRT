@@ -1,0 +1,80 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <settings spheres="2" planes="0" cilinders="1" tris="12" lights="3">
+	<camera resW="1024" resH="1024" fov="60">
+		<look x="0.0" y="1.0" z="-0.03" ></look>
+		<pos x="0.0" y="-0.2" z="0.0" ></pos>
+	</camera>
+	<spheres>
+		<first radius="0.15" spec="80.0" IOR="1.40" ks="0.01" kss="1.0" ka="0.0" kd="0.1" kt="0.79" colorR="255=" colorB="160" colorG="160">
+			<pos x="-0.14" y="1.03" z="-0.17" ></pos>
+		</first>
+		<second radius="0.1" spec="128" IOR="1.0" ks="0.9" kss="0.9" ka="0.0" kd="0.1" kt="0.0" colorR="50" colorB="50" colorG="50">
+			<pos x="0.2" y="1.05" z="-0.22" ></pos>
+		</second>
+	</spheres>
+	<planes>
+		<first kt="0.0" spec="20.0" IOR="1.0" ks="0.0" kss="0.0" ka="0.2" kd="0.8" colorR="255" colorB="255" colorG="255">
+			<ec A="0" B="0" C="1" D="0.5" ></ec>
+		</first>
+		<second kt="0.0" spec="64.0" IOR="1.0" ks="0.0" kss="0.0" ka="0.2" kd="0.8" colorR="255" colorB="255" colorG="255">
+			<ec A="0" B="0" C="-1" D="0.3" ></ec>
+		</second>
+		<third kt="0.0" spec="64.0" IOR="1.0" ks="0.0" kss="0.0" ka="0.2" kd="0.8" colorR="255" colorB="255" colorG="255">
+			<ec A="0.0" B="-1" C="0.0" D="1.5" ></ec>
+		</third>
+		<fourth kt="0.0" spec="64.0" IOR="1.0" ks="0.0" kss="0.0" ka="0.2" kd="0.8" colorR="200" colorB="0" colorG="0">
+			<ec A="-1" B="0" C="0" D="0.5" ></ec>
+		</fourth>
+		<fifth kt="0.0" spec="64.0" IOR="1.0" ks="0.0" kss="0.0" ka="0.2" kd="0.8" colorR="0" colorB="0" colorG="200">
+			<ec A="1" B="0" C="0" D="0.5" ></ec>
+		</fifth>
+	</planes>
+	<cyls>
+		<first kt="0.0" spec="64.0" IOR="1.0" ks="0.0" kss="0.0" ka="0.2" kd="0.8" colorR="220" colorB="0" colorG="20">
+			<ec posx="-0.05" posy="1.03" posz="-0.31" radius="0.1" alt="0.18"></ec>
+		</first>
+	</cyls>
+	<tris>
+		<first kt="0.0" spec="64.0" IOR="1.0" ks="0.0" kss="0.0" ka="0.2" kd="0.8" colorR="255" colorB="255" colorG="255">
+			<ec v1x="-0.3" v1y="0.8" v1z="-0.31" v2x="-0.3" v2y="1.1" v2z="-0.31" v3x="0.3" v3y="0.8" v3z="-0.31" ></ec>
+		</first>
+		<second kt="0.0" spec="64.0" IOR="1.0" ks="0.0" kss="0.0" ka="0.2" kd="0.8" colorR="255" colorB="255" colorG="255">
+			<ec v1x="0.3" v1y="1.1" v1z="-0.31" v2x="0.3" v2y="0.8" v2z="-0.31" v3x="-0.3" v3y="1.1" v3z="-0.31" ></ec>
+		</second>
+		<third kt="0.0" spec="64.0" IOR="1.0" ks="0.0" kss="0.0" ka="0.2" kd="0.8" colorR="255" colorB="255" colorG="255">
+			<ec v1x="-0.3" v1y="1.1" v1z="-0.31" v2x="-0.3" v2y="1.1" v2z="-0.5" v3x="0.3" v3y="1.1" v3z="-0.31" ></ec>
+		</third>
+		<fourth kt="0.0" spec="64.0" IOR="1.0" ks="0.0" kss="0.0" ka="0.2" kd="0.8" colorR="255" colorB="255" colorG="255">
+			<ec v1x="0.3" v1y="1.1" v1z="-0.5" v2x="0.3" v2y="1.1" v2z="-0.31" v3x="-0.3" v3y="1.1" v3z="-0.5" ></ec>
+		</fourth>
+		<fifth kt="0.0" spec="64.0" IOR="1.0" ks="0.0" kss="0.0" ka="0.2" kd="0.8" colorR="255" colorB="255" colorG="255">
+			<ec v1x="0.3" v1y="0.8" v1z="-0.31" v2x="0.3" v2y="0.8" v2z="-0.5" v3x="-0.3" v3y="0.8" v3z="-0.31" ></ec>
+		</fifth>
+		<sixth kt="0.0" spec="64.0" IOR="1.0" ks="0.0" kss="0.0" ka="0.2" kd="0.8" colorR="255" colorB="255" colorG="255">
+			<ec v1x="-0.3" v1y="0.8" v1z="-0.5" v2x="-0.3" v2y="0.8" v2z="-0.31" v3x="0.3" v3y="0.8" v3z="-0.5" ></ec>
+		</sixth>
+		<seventh kt="0.0" spec="64.0" IOR="1.0" ks="0.0" kss="0.0" ka="0.2" kd="0.8" colorR="255" colorB="255" colorG="255">
+			<ec v1x="-0.3" v1y="0.8" v1z="-0.31" v2x="-0.3" v2y="0.8" v2z="-0.5" v3x="-0.3" v3y="1.1" v3z="-0.31" ></ec>
+		</seventh>
+		<eighth kt="0.0" spec="64.0" IOR="1.0" ks="0.0" kss="0.0" ka="0.2" kd="0.8" colorR="255" colorB="255" colorG="255">
+			<ec v1x="-0.3" v1y="1.1" v1z="-0.31" v2x="-0.3" v2y="0.8" v2z="-0.5" v3x="-0.3" v3y="1.1" v3z="-0.5" ></ec>
+		</eighth>
+		<ninth kt="0.0" spec="64.0" IOR="1.0" ks="0.0" kss="0.0" ka="0.2" kd="0.8" colorR="255" colorB="255" colorG="255">
+			<ec v1x="0.3" v1y="1.1" v1z="-0.31" v2x="0.3" v2y="1.1" ka="0.2" kd="0.8" v2z="-0.5" v3x="0.3" v3y="0.8" v3z="-0.31" ></ec>
+		</ninth>
+		<tenth kt="0.0" spec="64.0" IOR="1.0" ks="0.0" kss="0.0" ka="0.2" kd="0.8" colorR="255" colorB="255" colorG="255">
+			<ec v1x="0.3" v1y="0.8" v1z="-0.31" v2x="0.3" v2y="1.1" v2z="-0.5" v3x="0.3" v3y="0.8" v3z="-0.5" ></ec>
+		</tenth>
+		<eleventh kt="0.0" spec="64.0" IOR="1.0" ks="0.0" kss="0.0" ka="0.2" kd="0.8" colorR="255" colorB="255" colorG="255">
+			<ec v1x="-0.3" v1y="1.1" v1z="-0.5" v2x="-0.3" v2y="1.1" v2z="-0.31" v3x="-0.3" v3y="0.8" v3z="-0.5" ></ec>
+		</eleventh>
+		<twelvfth kt="0.0" spec="64.0" IOR="1.0" ks="0.0" kss="0.0" ka="0.2" kd="0.8" colorR="255" colorB="255" colorG="255">
+			 <ec v1x="-0.3" v1y="0.8" v1z="-0.5" v2x="-0.3" v2y="1.1" v2z="-0.31" v3x="-0.3" v3y="0.8" v3z="-0.5" ></ec>
+		 </twelvfth>
+	 </tris>
+	 <lights>
+		 <first posx="0.2" posy="1.05" posz="0.28" intx="100" inty="100" intz="100"> </first>
+		 <second posx="-0.4" posy="0.7" posz="0.27" intx="40" inty="5" intz="0"> </second>
+		 <third posx="0.4" posy="0.7" posz="0.27" intx="0" inty="5" intz="30"> </third>
+	 </lights>
+ </settings>

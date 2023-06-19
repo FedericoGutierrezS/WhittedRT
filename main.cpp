@@ -147,7 +147,7 @@ vec3 sombra_RR(Primitive* obj, ray& rayo, vec3& hitPoint, vec3& normal, int alt)
 				cout << rayo.origin.x << " " << rayo.origin.y << " " << rayo.origin.z << "\n";
 				cout << normal.x << " " << normal.y << " " << normal.z << "\n";
 			}*/
-	if (alt < 4) {
+	if (alt < col->getProf()) {
 		if (obj->getMat().ks > 0) {
 			ray rayo_r;
 			vec3 reflectionDirection;
@@ -202,12 +202,16 @@ vec3 traza_RR(ray &rayo, int alt, vec3 &pixelRefl, vec3 &pixelRefr) {
 	vec3 norm, hitPoint;
 	vec3 res;
 	Primitive* inter = intersect(rayo, norm, hitPoint);
-	pixelRefl = vec3(255, 255, 255) * inter->getMat().ks;
-	pixelRefr = vec3(255, 255, 255) * inter->getMat().kt;
 	if (inter != NULL) {
-		return sombra_RR(inter,rayo,hitPoint,norm,alt);
+		pixelRefl = vec3(255, 255, 255) * inter->getMat().ks;
+		pixelRefr = vec3(255, 255, 255) * inter->getMat().kt;
+		return sombra_RR(inter, rayo, hitPoint, norm, alt);
 	}
-	else return vec3(0, 0, 0);
+	else {
+		pixelRefl = vec3(0, 0, 0);
+		pixelRefr = vec3(0, 0, 0);
+		return vec3(0, 0, 0);
+	};
 	/*if (norm.x > 0) {
 		res.x = 127 * norm.x;
 	} else {
@@ -238,6 +242,7 @@ int main(int argc, char *argv[]) {
 
 	XMLElement* settings = doc.FirstChildElement();
 	col->inicializarCol(settings->FloatAttribute("spheres") , settings->FloatAttribute("planes"), settings->FloatAttribute("cilinders"), settings->FloatAttribute("tris"), settings->FloatAttribute("lights"));
+	col->setProf(settings->IntAttribute("prof"));
 	camera cam;
 	XMLElement* camera = settings->FirstChildElement();
 	cam.resW = camera->FloatAttribute("resW");

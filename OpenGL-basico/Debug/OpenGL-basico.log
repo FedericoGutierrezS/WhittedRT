@@ -1,1 +1,13 @@
-﻿  OpenGL-basico.vcxproj -> C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\Debug\OpenGL-basico.exe
+﻿  main.cpp
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(113,31): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(114,30): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(126,78): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(127,68): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(156,52): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(157,51): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(171,23): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(178,52): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(179,51): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(234,5): error C2601: 'main': local function definitions are illegal
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(201): message : this line contains a '{' which has not yet been matched
+C:\Users\feder\OneDrive\Documents\VSProjects\WhittedRT\main.cpp(201): fatal  error C1075: '{': no matching token found
