@@ -60,7 +60,7 @@ Primitive* intersect(ray rayo,vec3 &normalO,vec3 &hitPointO) {
 	}
 	Plano** p = col->getColPlanos();
 	for (int i = 0; i < col->getCantPlanos(); i++) {
-		j = p[i]->intersectRay(rayo, norm, hitPoint, 2);
+		j = p[i]->intersectRay(rayo, norm, hitPoint, 10);
 		if (j && norma(*hitPoint - rayo.origin) < norma(hitPoint_min - rayo.origin)) {
 			hitPoint_min = *hitPoint;
 			norm_min = *norm;
