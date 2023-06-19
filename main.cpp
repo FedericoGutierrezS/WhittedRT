@@ -170,8 +170,8 @@ vec3 sombra_RR(Primitive* obj, ray& rayo, vec3& hitPoint, vec3& normal, int alt)
 			}
 			float nit = etai / etat;
 			float si = sin(acos(ci));
-			float k = 1 - nit * nit * (1 - (ci * ci));
-			refractionDirection = normalize(rayo.dir*nit + (n*(nit*ci - sqrt(k))));
+			float k = 1 - (1 - nit*(1 - ci * ci));
+			refractionDirection = normalize(rayo.dir*nit + (n*(nit*ci + sqrt(k))));
 			refractionRayOrig = ((refractionDirection * normal) < 0) ?
 				refractionRayOrig = hitPoint - normal * 0.0001 :
 				refractionRayOrig = hitPoint + normal * 0.0001;
@@ -353,25 +353,19 @@ int main(int argc, char *argv[]) {
 		lights = lights->NextSiblingElement();
 	}
 
-
-	mat.diffuse.z = 255;
 	FIBITMAP* bitmap = FreeImage_Allocate(cam.resW, cam.resH, 24);
 	RGBQUAD color;
 	vec3 pixel;
 	ray rayo;
-	float camRatio = cam.resW / cam.resH;
-
 	
-
-
 	for (int j = 0; j < cam.resH; j++) {
 		for (int i = 0; i < cam.resW; i++) {
 			vec3 cam_Z = normalize(cam.origin - cam.look);
 			vec3 cam_X = normalize(cross(vec3(0.0f, 0.0f, 1.0f), cam_Z));
 			vec3 cam_Y = normalize(cross(cam_Z, cam_X));
 
-			float py = (2.0 * j - cam.resH) / cam.resH;
-			float px = (2.0 * i - cam.resW) / cam.resH;
+			float py = (2.0*j - cam.resH) / cam.resH;
+			float px = (2.0*i - cam.resW) / cam.resH;
 			float pz = -1.0 / tan(cam.fov / 2.0);
 
 			rayo.origin = cam.origin;
