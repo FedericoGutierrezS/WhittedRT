@@ -16,7 +16,7 @@ bool  Triangulo::intersectRay(ray &rayo, vec3* norm, vec3* hitPoint) {
 	if (v < 0.0 || u + v > 1.0) return false;
 	float t = (e2 * r) * f;
 	*hitPoint = rayo.origin + (rayo.dir * t);
-	*norm = this->normal;
+	*norm = normalize(cross(e2,e1));
 	if (t < 0) return false;
 	return true;
 }

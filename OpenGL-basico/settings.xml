@@ -1,16 +1,23 @@
  <?xml version="1.0" encoding="UTF-8"?>
- <settings spheres="2" planes="5" cilinders="1" tris="12" lights="3" prof="6">
-	<camera resW="1024" resH="1024" fov="60">
+ <settings spheres="2" planes="5" cilinders="1" tris="12" lights="3" prof="7">
+	<camera resW="1024" resH="1024" fov="50">
 		<look x="0.0" y="1.0" z="-0.03" ></look>
 		<pos x="0.0" y="-0.2" z="0.0" ></pos>
 	</camera>
 	<spheres>
-		<first radius="0.15" spec="80.0" IOR="1.40" ks="0.01" kss="1.0" ka="0.0" kd="0.1" kt="0.79" colorR="255=" colorB="160" colorG="160">
-			<pos x="-0.14" y="1.03" z="-0.16" ></pos>
-		</first>
-		<second radius="0.1" spec="128" IOR="1.0" ks="0.9" kss="0.9" ka="0.0" kd="0.1" kt="0.0" colorR="50" colorB="50" colorG="50">
+		<sph radius="0.1" spec="128" IOR="2.5" ks="0.9" kss="0.9" ka="0.0" kd="0.1" kt="0.0" colorR="50" colorB="50" colorG="50">
 			<pos x="0.2" y="1.05" z="-0.21" ></pos>
-		</second>
+		</sph>
+		<sph radius="0.15" spec="128" IOR="1.6" ks="0.01" kss="0.9" ka="0.0" kd="0.1" kt="1.0" colorR="50" colorB="50" colorG="50">
+			<pos x="-0.2" y="1.05" z="-0.16" ></pos>
+		</sph>
+		<sph radius="0.1" spec="128" IOR="3.0" ks="0.7" kss="0.9" ka="0.0" kd="0.1" kt="0.0" colorR="50" colorB="50" colorG="50">
+			<pos x="0.2" y="1.05" z="-0.05" ></pos>
+		</sph>
+		<sph radius="0.1" spec="128" IOR="1.1" ks="1.0" kss="0.9" ka="0.0" kd="0.1" kt="0.0" colorR="50" colorB="50" colorG="50">
+			<pos x="0.2" y="1.05" z="0.15" ></pos>
+		</sph>
+		
 	</spheres>
 	<planes>
 		<first kt="0.0" spec="20.0" IOR="1.0" ks="0.0" kss="0.0" ka="0.2" kd="0.8" colorR="255" colorB="255" colorG="255">
@@ -35,8 +42,8 @@
 		</first>
 	</cyls>
 	<tris>
-		<first kt="0.0" spec="64.0" IOR="1.0" ks="0.0" kss="0.0" ka="0.2" kd="0.8" colorR="255" colorB="255" colorG="255">
-			<ec v1x="-0.3" v1y="0.8" v1z="-0.31" v2x="-0.3" v2y="1.1" v2z="-0.31" v3x="0.3" v3y="0.8" v3z="-0.31" ></ec>
+		<first kt="0.0" spec="64.0" IOR="1.0" ks="0.3" kss="0.1" ka="0.4" kd="0.5" colorR="255" colorB="255" colorG="255">
+			<ec v2x="-0.3" v2y="0.8" v2z="-0.31" v1x="-0.3" v1y="1.1" v1z="-0.31" v3x="0.3" v3y="0.8" v3z="-0.31" ></ec>
 		</first>
 		<second kt="0.0" spec="64.0" IOR="1.0" ks="0.0" kss="0.0" ka="0.2" kd="0.8" colorR="255" colorB="255" colorG="255">
 			<ec v1x="0.3" v1y="1.1" v1z="-0.31" v2x="0.3" v2y="0.8" v2z="-0.31" v3x="-0.3" v3y="1.1" v3z="-0.31" ></ec>
@@ -73,8 +80,10 @@
 		 </twelvfth>
 	 </tris>
 	 <lights>
-		 <first posx="0.2" posy="1.05" posz="0.28" intx="100" inty="100" intz="100"> </first>
+		 <first posx="0.2" posy="1.05" posz="0.28" intx="40" inty="40" intz="40"> </first>
 		 <second posx="-0.4" posy="0.7" posz="0.27" intx="40" inty="5" intz="0"> </second>
 		 <third posx="0.4" posy="0.7" posz="0.27" intx="0" inty="5" intz="30"> </third>
+		 <first posx="-0.2" posy="1.05" posz="-0.1" intx="0" inty="30" intz="0"> </first>
+		 <second posx="0.0" posy="0.2" posz="0.27" intx="30" inty="30" intz="0"> </second>
 	 </lights>
  </settings>
