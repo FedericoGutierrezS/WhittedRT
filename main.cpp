@@ -122,7 +122,7 @@ vec3 sombra_RR(Primitive* obj, ray& rayo, vec3& hitPoint, vec3& normal, int alt)
 		float fctr = normal * L;
 		distObjSombra = norma(hitSombra - hitPoint);
 		distLuzObj = norma(l[i]->position - hitPoint);
-		if ((a!=NULL&&(distObjSombra < distLuzObj)) || fctr < -0.00001) {
+		if (a!=NULL&&a!=obj&&(distObjSombra < distLuzObj)) {
 			if (a != NULL) color = color - (obj->getMat().diffuse * (obj->getMat().ka * 0.3) * (1 - a->getMat().kt));
 			else color = color - (obj->getMat().diffuse * (obj->getMat().ka * 0.3));
 			if (color.x < 0) color.x = 0;
@@ -133,7 +133,7 @@ vec3 sombra_RR(Primitive* obj, ray& rayo, vec3& hitPoint, vec3& normal, int alt)
 			vec3 V = normalize(rayo.origin - hitPoint);
 			vec3 H = normalize(L + V);
 			float hf = pow(H * normal, obj->getMat().specular);
-			color = color + (obj->getMat().diffuse * obj->getMat().ka) + (mult(normalize(l[i]->intensity), obj->getMat().diffuse) * obj->getMat().kd * fctr * remap(norma(l[i]->intensity), 0, 1, 0, 200) + l[i]->intensity * hf * obj->getMat().kss);
+			color = color + (obj->getMat().diffuse * obj->getMat().ka) + mult(obj->getMat().diffuse,l[i]->intensity) * obj->getMat().kd * remap(fctr,0,1,-1,1) + l[i]->intensity * hf * obj->getMat().kss;
 			if (color.x > 255) color.x = 255;
 			if (color.y > 255) color.y = 255;
 			if (color.z > 255) color.z = 255;
