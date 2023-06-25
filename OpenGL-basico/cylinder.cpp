@@ -28,7 +28,7 @@ bool  Cilindro::intersectRay(ray rayo, vec3* norm, vec3* hitPoint) {
 	float t3 = (- av.z) / rayo.dir.z;
 	float t4 = (altura - av.z) / rayo.dir.z;
 	if (((z1 < - 0.00001 && z2> + 0.00001) || (z2 < - 0.00001 && z1> + 0.00001)) && (rayo.origin.z < position.z)) t = t3;
-	if (((z1 <altura - 0.00001 && z2> altura + 0.00001) || (z2 < altura - 0.00001 && z1> altura + 0.00001)) && (rayo.origin.z > position.z)) t = t4;
+	if (((z1 <altura - 0.00001 && z2> altura + 0.00001) || (z2 < altura - 0.00001 && z1> altura + 0.00001)) && (rayo.origin.z > altura + position.z)) t = t4;
 	*hitPoint = rayo.origin + (rayo.dir * t);
 	if (hitPoint->z > altura + position.z + 0.00001 || hitPoint->z < 0 + position.z - 0.00001) return false;
 	if (t == t3) *norm = vec3(0, 0, -1);
