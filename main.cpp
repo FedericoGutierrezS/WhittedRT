@@ -110,8 +110,8 @@ vec3 sombra_RR(Primitive* obj, ray& rayo, vec3& hitPoint, vec3& normal, int alt)
 	vec3 color = obj->getMat().diffuse* obj->getMat().ka;
 	Light** l = col->getColLuces();
 	rayoSombra.origin = (rayo.dir* normal < 0) ?
-		hitPoint + normal * 0.00001 :
-		hitPoint - normal * 0.00001;
+		hitPoint + normal * 0.000001 :
+		hitPoint - normal * 0.000001;
 	Primitive* a = NULL;
 	vec3 hitSombra, normalSombra,L;
 	double distLuzObj, distObjSombra;
@@ -130,8 +130,8 @@ vec3 sombra_RR(Primitive* obj, ray& rayo, vec3& hitPoint, vec3& normal, int alt)
 			vec3 V = normalize(rayo.origin - hitPoint);
 			vec3 H = normalize(L + V);
 			float hf = pow(H * normal, obj->getMat().specular);
-			float att =min((1 /(6*pow(distLuzObj,2.0))),1.0);
-			color = color + (obj->getMat().diffuse * obj->getMat().ka) + mult(obj->getMat().diffuse,l[i]->intensity * att) * obj->getMat().kd * remap(fctr,0,1,-1,1) + l[i]->intensity * hf * obj->getMat().kss*127;
+			float att =min((1 /(pow(2*distLuzObj,2.0))),1.0);
+			color = color + (obj->getMat().diffuse * obj->getMat().ka) + mult(obj->getMat().diffuse,l[i]->intensity * att) * obj->getMat().kd * fctr + l[i]->intensity * hf * obj->getMat().kss*127;
 		}
 	}
 	/*if (hitPoint.x < 0.1495 && hitPoint.x > 0.1491)
@@ -394,9 +394,9 @@ int main(int argc, char *argv[]) {
 			rayo1.origin = cam.origin;
 			rayo1.dir = normalize(cam_X * px + cam_Y * py + cam_Z * pz);
 			rayo2.origin = cam.origin;
-			rayo2.dir = normalize(cam_X * px + cam_Y * py + cam_Z * pz + vec3(0.001, 0.001, 0.001));
+			rayo2.dir = normalize(cam_X * px + cam_Y * py + cam_Z * pz + vec3(((1/cam.resW)*0.5), 0.0, ((1 / cam.resH) * 0.5)));
 			rayo3.origin = cam.origin;
-			rayo3.dir = normalize(cam_X * px + cam_Y * py + cam_Z * pz - vec3(0.001, 0.001, 0.001));
+			rayo3.dir = normalize(cam_X * px + cam_Y * py + cam_Z * pz - vec3(((1 / cam.resW) * 0.5), 0.0, ((1 / cam.resH) * 0.5)));
 
 			pixel = traza_RR(rayo1, 1, pixelRefl, pixelRefr)*0.333333 + traza_RR(rayo2, 1)*0.333333 + traza_RR(rayo3, 1) * 0.333333;
 			color.rgbRed = pixel.x;
