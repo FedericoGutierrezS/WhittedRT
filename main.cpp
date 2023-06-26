@@ -120,8 +120,8 @@ vec3 sombra_RR(Primitive* obj, ray& rayo, vec3& hitPoint, vec3& normal, int alt)
 		a = intersect(rayoSombra, normalSombra, hitSombra);
 		L = normalize(l[i]->position - hitPoint);
 		float fctr = normal * L;
-		distObjSombra = norma(hitSombra - hitPoint);
-		distLuzObj = norma(l[i]->position - hitPoint);
+		distObjSombra = norma(hitSombra - rayoSombra.origin);
+		distLuzObj = norma(l[i]->position - rayoSombra.origin);
 		if (a!=NULL&&a!=obj&&(distObjSombra < distLuzObj)) {
 			if (a != NULL) color = color - (obj->getMat().diffuse * (obj->getMat().ka * 0.3) * (1 - a->getMat().kt));
 			else color = color - (obj->getMat().diffuse * (obj->getMat().ka * 0.3));
