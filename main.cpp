@@ -110,8 +110,8 @@ vec3 sombra_RR(Primitive* obj, ray& rayo, vec3& hitPoint, vec3& normal, int alt)
 	vec3 color = obj->getMat().diffuse* obj->getMat().ka;
 	Light** l = col->getColLuces();
 	rayoSombra.origin = (rayo.dir* normal < 0) ?
-		hitPoint + normal * 0.000001 :
-		hitPoint - normal * 0.000001;
+		hitPoint + normal * 0.00001 :
+		hitPoint - normal * 0.00001;
 	Primitive* a = NULL;
 	vec3 hitSombra, normalSombra,L;
 	double distLuzObj, distObjSombra;
@@ -131,7 +131,7 @@ vec3 sombra_RR(Primitive* obj, ray& rayo, vec3& hitPoint, vec3& normal, int alt)
 			vec3 H = normalize(L + V);
 			float hf = pow(H * normal, obj->getMat().specular);
 			float att =min((1 /(pow(2*distLuzObj,2.0))),1.0);
-			color = color + (obj->getMat().diffuse * obj->getMat().ka) + mult(obj->getMat().diffuse,l[i]->intensity * att) * obj->getMat().kd * fctr + l[i]->intensity * hf * obj->getMat().kss*127;
+			color = color + (obj->getMat().diffuse * obj->getMat().ka) + mult(obj->getMat().diffuse,l[i]->intensity * att) * obj->getMat().kd * fctr + l[i]->intensity * hf * obj->getMat().kss*255;
 		}
 	}
 	/*if (hitPoint.x < 0.1495 && hitPoint.x > 0.1491)
